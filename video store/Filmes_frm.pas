@@ -1,0 +1,325 @@
+unit Filmes_frm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, ExtCtrls, Buttons, Grids, DBGrids;
+
+type
+  TfrmFilmes = class(TForm)
+    Shape1: TShape;
+    Panel1: TPanel;
+    btnSelecionar: TSpeedButton;
+    btnInserir: TSpeedButton;
+    btnAtualizar: TSpeedButton;
+    btnDeletar: TSpeedButton;
+    btnLimpar: TSpeedButton;
+    btnSair: TSpeedButton;
+    btnNovo: TSpeedButton;
+    GroupBox2: TGroupBox;
+    Label2: TLabel;
+    lblFax: TLabel;
+    edtCod: TLabeledEdit;
+    edtSituacao: TLabeledEdit;
+    cbxNome: TComboBox;
+    edtValor: TLabeledEdit;
+    cbxTipo: TComboBox;
+    Label3: TLabel;
+    cbxGenero: TComboBox;
+    mmObs: TMemo;
+    Label1: TLabel;
+    Shape3: TShape;
+    Panel4: TPanel;
+    DBGrid1: TDBGrid;
+    Panel2: TPanel;
+    procedure btnSairClick(Sender: TObject);
+    procedure btnLimparClick(Sender: TObject);
+    procedure btnNovoClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnAtualizarClick(Sender: TObject);
+    procedure btnDeletarClick(Sender: TObject);
+    procedure btnSelecionarClick(Sender: TObject);
+    procedure edtValorExit(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtCodKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure cbxNomeKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmFilmes: TfrmFilmes;
+
+implementation
+
+uses Locadora_dm, ZDataset;
+
+{$R *.dfm}
+
+function fConvertValor() : String;
+var valor : String;
+    tamanho, i : Integer;
+begin
+    valor := frmFilmes.edtValor.Text;
+    tamanho := Length(valor);
+    for i := 0 to tamanho do begin
+    If valor[i] = '.' then
+       valor[i] := ','
+    else
+       if valor[i] = ',' then
+          valor[i] := '.';
+    end;
+    frmFilmes.edtValor.Text := valor;
+end;
+
+function fBuscaCodFilme() : Integer;
+begin
+    With dmLocadora.zqLocadora do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select f_cod from filmes order by f_cod desc');
+       Active := True;
+       fBuscaCodFilme := FieldByName('f_cod').AsInteger;
+    end;
+end;
+
+procedure TfrmFilmes.btnSairClick(Sender: TObject);
+begin
+    Close;
+end;
+
+procedure TfrmFilmes.btnLimparClick(Sender: TObject);
+begin
+    FormShow(Self);
+    edtCod.Clear; edtSituacao.Clear; edtValor.Text := '0,00';
+    cbxNome.Text := ''; cbxTipo.Text := ''; cbxGenero.Text := '';
+    mmObs.Clear;
+end;
+
+procedure TfrmFilmes.btnNovoClick(Sender: TObject);
+var nNovo : Integer;
+begin
+    btnLimparClick(Sender);
+    nNovo := fBuscaCodFilme + 1;
+    edtCod.Text := IntToStr(nNovo);
+    edtSituacao.Text := 'DISPONÍVEL';
+    cbxNome.SetFocus;
+end;
+
+procedure TfrmFilmes.FormCreate(Sender: TObject);
+begin
+    With dmLocadora.zqLocadora do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select f_nome from filmes order by f_nome');
+       Active := True;
+       while not Eof do begin
+          cbxNome.Items.Add(FieldByName('f_nome').AsString);
+          Next;
+       end;
+    end;
+end;
+
+procedure TfrmFilmes.btnInserirClick(Sender: TObject);
+begin
+    If cbxNome.Text <> '' then begin
+       fConvertValor;
+       With dmLocadora.zqLocadora do begin
+          Active := False;
+          SQL.Clear;
+          SQL.Add('Insert into filmes (F_COD, F_NOME, F_TIPO, F_GENERO, F_VALOR, F_STATUS, F_OBS) values ('+QuotedStr(edtCod.Text)+', '+QuotedStr(cbxNome.Text)+', '+QuotedStr(cbxTipo.Text)+', '+QuotedStr(cbxGenero.Text)+', '+QuotedStr(edtValor.Text)+', '+QuotedStr(edtSituacao.Text)+', '+QuotedStr(mmObs.Text)+')');
+          ExecSQL;
+       end;
+       fConvertValor;
+       btnLimparClick(Self);
+       cbxNome.Clear;
+       FormCreate(Self);
+       Application.MessageBox('Registro Efetuado com Sucesso!','Rental - Sucesso',MB_OK+MB_ICONINFORMATION);
+    end
+    else begin
+       Application.MessageBox('O campo Título não pode estar vazio!','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+procedure TfrmFilmes.btnAtualizarClick(Sender: TObject);
+begin
+    If cbxNome.Text <> '' then begin
+       fConvertValor;
+       With dmLocadora.zqLocadora do begin
+          Active := False;
+          SQL.Clear;
+          SQL.Add('Update filmes set F_NOME = '+QuotedStr(cbxNome.Text)+', F_TIPO = '+QuotedStr(cbxTipo.Text)+', F_GENERO = '+QuotedStr(cbxGenero.Text)+', F_VALOR = '+QuotedStr(edtValor.Text)+', F_STATUS = '+QuotedStr(edtSituacao.Text)+', F_OBS = '+QuotedStr(mmObs.Text)+' where F_COD = '+QuotedStr(edtCod.Text)+'');
+          ExecSQL;
+          Application.MessageBox('Registro Atualizado com Sucesso!','Rental - Sucesso',MB_OK+MB_ICONINFORMATION);
+       end;
+       fConvertValor;
+    end
+    else begin
+       Application.MessageBox('O campo Título não pode estar vazio!','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+procedure TfrmFilmes.btnDeletarClick(Sender: TObject);
+begin
+     If edtCod.Text <> '' then begin
+       If Application.MessageBox('Excluir Registro?','Rental - Confirmação de Exclusão',MB_YESNO+MB_ICONEXCLAMATION) = ID_YES then begin
+          With dmLocadora.zqLocadora do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('Delete from filmes where f_cod = '+ QuotedStr(edtCod.Text)+'');
+             ExecSQL;
+          end;
+          btnLimparClick(Self);
+          cbxNome.Clear;
+          FormCreate(Self);
+          Application.MessageBox('Registro Excluido com Sucesso!','Rental - Sucesso',MB_OK+MB_ICONINFORMATION);
+       end;
+    end
+    else begin
+       Application.MessageBox('O campo Título não pode ser vazio! Selecione um registro para poder excluir.','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+procedure TfrmFilmes.btnSelecionarClick(Sender: TObject);
+begin
+    If cbxNome.Text <> '' then begin
+       With dmLocadora.zqLocadora do begin
+          Active := False;
+          SQL.Clear;
+          SQL.Add('Select * from filmes where f_nome = '+QuotedStr(cbxNome.Text)+'');
+          Active := True;
+          If dmLocadora.zqLocadora.RecordCount = 0 then begin
+             ShowMessage('Filme não cadastrado.');
+          end
+          else begin
+             edtCod.Text := FieldByName('f_cod').AsString;
+             cbxNome.Text := FieldByName('f_nome').AsString;
+             cbxTipo.Text := FieldByName('f_tipo').AsString;
+             cbxGenero.Text := FieldByName('f_genero').AsString;
+             edtValor.Text := FieldByName('f_valor').AsString;
+             edtSituacao.Text := FieldByName('f_status').AsString;
+             mmObs.Text := FieldByName('f_obs').AsString;
+             edtValor.Text := FormatCurr('0.00', StrToFloat(edtValor.Text));
+          end;
+       end;
+       With dmLocadora.zqLocadora do begin
+          Active := False;
+          SQL.Clear;
+          SQL.Add('select C.c_nome, L.c_cod, IL.il_data, IL.il_devolucao from clientes C, itens_locacao IL, locacoes L where f_cod = '+QuotedStr(edtCod.Text)+' and IL.l_cod = L.l_cod and L.c_cod = C.c_cod and il_devolucao = ''NÃO''');
+          Active := True;
+          DBGrid1.DataSource.Enabled := True;
+          DBGrid1.Columns.Items[0].FieldName := FieldByName('c_cod').FieldName;
+          DBGrid1.Columns.Items[1].FieldName := FieldByName('c_nome').FieldName;
+          DBGrid1.Columns.Items[2].FieldName := FieldByName('il_data').FieldName;
+          DBGrid1.Columns.Items[3].FieldName := FieldByName('il_devolucao').FieldName;
+       end;
+    end
+    else begin
+       Application.MessageBox('O campo Título não pode estar vazio!','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+procedure TfrmFilmes.edtValorExit(Sender: TObject);
+begin
+    edtValor.Text := FormatCurr('0.00', StrToFloat(edtValor.Text));
+end;
+
+procedure TfrmFilmes.FormShow(Sender: TObject);
+begin
+    DBGrid1.DataSource.Enabled := False;
+    cbxNome.SetFocus;
+end;
+
+procedure TfrmFilmes.edtCodKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    If Key = VK_RETURN then begin
+       If edtCod.Text <> '' then begin
+          With dmLocadora.zqLocadora do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('Select * from filmes where f_cod = '+QuotedStr(edtCod.Text)+'');
+             Active := True;
+             If dmLocadora.zqLocadora.RecordCount = 0 then begin
+                ShowMessage('Filme não cadastrado.');
+             end
+             else begin
+                edtCod.Text := FieldByName('f_cod').AsString;
+                cbxNome.Text := FieldByName('f_nome').AsString;
+                cbxTipo.Text := FieldByName('f_tipo').AsString;
+                cbxGenero.Text := FieldByName('f_genero').AsString;
+                edtValor.Text := FieldByName('f_valor').AsString;
+                edtSituacao.Text := FieldByName('f_status').AsString;
+                mmObs.Text := FieldByName('f_obs').AsString;
+                edtValor.Text := FormatCurr('0.00', StrToFloat(edtValor.Text));
+             end;
+          end;
+          With dmLocadora.zqLocadora do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('select C.c_nome, L.c_cod, IL.il_data, IL.il_devolucao from clientes C, itens_locacao IL, locacoes L where f_cod = '+QuotedStr(edtCod.Text)+' and IL.l_cod = L.l_cod and L.c_cod = C.c_cod and il_devolucao = ''NÃO''');
+             Active := True;
+             DBGrid1.DataSource.Enabled := True;
+             DBGrid1.Columns.Items[0].FieldName := FieldByName('c_cod').FieldName;
+             DBGrid1.Columns.Items[1].FieldName := FieldByName('c_nome').FieldName;
+             DBGrid1.Columns.Items[2].FieldName := FieldByName('il_data').FieldName;
+             DBGrid1.Columns.Items[3].FieldName := FieldByName('il_devolucao').FieldName;
+          end;
+       end
+       else begin
+       Application.MessageBox('O campo Código não pode estar vazio!','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+end;
+
+procedure TfrmFilmes.cbxNomeKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    If Key = VK_RETURN then begin
+       If cbxNome.Text <> '' then begin
+          With dmLocadora.zqLocadora do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('Select * from filmes where f_nome = '+QuotedStr(cbxNome.Text)+'');
+             Active := True;
+             If dmLocadora.zqLocadora.RecordCount = 0 then begin
+                ShowMessage('Filme não cadastrado.');
+             end
+             else begin
+                edtCod.Text := FieldByName('f_cod').AsString;
+                cbxNome.Text := FieldByName('f_nome').AsString;
+                cbxTipo.Text := FieldByName('f_tipo').AsString;
+                cbxGenero.Text := FieldByName('f_genero').AsString;
+                edtValor.Text := FieldByName('f_valor').AsString;
+                edtSituacao.Text := FieldByName('f_status').AsString;
+                mmObs.Text := FieldByName('f_obs').AsString;
+                edtValor.Text := FormatCurr('0.00', StrToFloat(edtValor.Text));
+             end;
+          end;
+          With dmLocadora.zqLocadora do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('select C.c_nome, L.c_cod, IL.il_data, IL.il_devolucao from clientes C, itens_locacao IL, locacoes L where f_cod = '+QuotedStr(edtCod.Text)+' and IL.l_cod = L.l_cod and L.c_cod = C.c_cod and il_devolucao = ''NÃO''');
+             Active := True;
+             DBGrid1.DataSource.Enabled := True;
+             DBGrid1.Columns.Items[0].FieldName := FieldByName('c_cod').FieldName;
+             DBGrid1.Columns.Items[1].FieldName := FieldByName('c_nome').FieldName;
+             DBGrid1.Columns.Items[2].FieldName := FieldByName('il_data').FieldName;
+             DBGrid1.Columns.Items[3].FieldName := FieldByName('il_devolucao').FieldName;
+          end;
+       end
+       else begin
+       Application.MessageBox('O campo Código não pode estar vazio!','Rental - Atenção',MB_OK+MB_ICONWARNING);
+    end;
+end;
+
+end;
+
+end.
