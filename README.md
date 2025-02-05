@@ -3,7 +3,7 @@ Repository with some applications developed by me in Delphi/Pascal with several 
 
 1 - Backup Utility - Utility for creating/restoring backups. I use this little application with my systems.
 
-2 - Livestock Management System - I developed this system in partnership with a farmer. The objective of this system is to manage the cattle pasture and confinement sector, controlling the cost of feed for fattening cattle, among other management tasks. This system was also challenging, as it required numerous mathematical calculations.
+2 - Bovine Management System - I developed this system in partnership with a farmer. The objective of this system is to manage the cattle pasture and confinement sector, controlling the cost of feed for fattening cattle, among other management tasks. This system was also challenging, as it required numerous mathematical calculations.
 
 3 - MyCar - Car maintenance management and control system. This was practically my first software project. As I am passionate about cars, I decided to create this system to be able to take care of vehicle inspections, insurance, and fuel consumption. Some time later, I improved the first version and was able to update it to also manage fleets.
 
