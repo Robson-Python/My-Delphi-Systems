@@ -23,6 +23,7 @@ All of these systems were developed by me, throughout my career. I developed the
 Software and equipment used for development: Delphi 10.1 Berlin and SQLite to develop MyContatos and GloboGuia. The others were developed with Delphi 7 and with MySql, SQLite and Interbase databases.
 
 Operating System: Windows XP and 7.
+
 Computer: HP Compaq NX9030 - Intel Centrino.
 
 2005-2018 - Robson Silva - Programmer and Systems Developer
