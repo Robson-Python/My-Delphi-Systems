@@ -26,4 +26,4 @@ Operating System: Windows XP and 7.
 
 Computer: HP Compaq NX9030 - Intel Centrino.
 
-2005-2018 - Robson Silva - Programmer and Systems Developer
+©2005-2018 - Robson Silva - Programmer and Systems Developer
