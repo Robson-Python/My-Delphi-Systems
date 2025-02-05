@@ -1,7 +1,7 @@
 # My Delphi Systems
 Repository with some applications developed by me in Delphi/Pascal with several Databases
 
-1 - Backup Utility - Utility for creating/restoring backups. I use this little application with my systems.
+1 - Backup Utility - Utility for creating/restoring backups. I developed and use this little application with my systems..
 
 2 - Bovine Management System - I developed this system in partnership with a farmer. The objective of this system is to manage the cattle pasture and confinement sector, controlling the cost of feed for fattening cattle, among other management tasks. This system was also challenging, as it required numerous mathematical calculations.
 
