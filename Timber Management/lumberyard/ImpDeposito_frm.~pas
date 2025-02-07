@@ -1,0 +1,24 @@
+unit ImpDeposito_frm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TfrmImpDeposito = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmImpDeposito: TfrmImpDeposito;
+
+implementation
+
+{$R *.dfm}
+
+end.

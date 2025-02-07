@@ -1,0 +1,24 @@
+unit ImpClassificacao;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs;
+
+type
+  TfrmImpClassificacao = class(TForm)
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmImpClassificacao: TfrmImpClassificacao;
+
+implementation
+
+{$R *.dfm}
+
+end.
