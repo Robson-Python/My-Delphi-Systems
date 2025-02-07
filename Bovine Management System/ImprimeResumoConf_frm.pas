@@ -1,0 +1,177 @@
+unit ImprimeResumoConf_frm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, QRCtrls, QuickRpt, ExtCtrls, Jpeg, DateUtils, DB, ADODB;
+
+type
+  TfrmImprimeResumoConf = class(TForm)
+    qrpResumoConf: TQuickRep;
+    PageHeaderBand1: TQRBand;
+    QRLabel1: TQRLabel;
+    QRBand1: TQRBand;
+    QRSysData1: TQRSysData;
+    QRSysData2: TQRSysData;
+    QRBand2: TQRBand;
+    qrlQtdSaida: TQRLabel;
+    qrlTotalProd: TQRLabel;
+    qrlValorProd: TQRLabel;
+    qrlDespesa: TQRLabel;
+    qrlLucro: TQRLabel;
+    qrlFrete: TQRLabel;
+    qrlValor4: TQRLabel;
+    qrlValor2: TQRLabel;
+    qrlValor1: TQRLabel;
+    qrlValor6: TQRLabel;
+    qrlValor8: TQRLabel;
+    QRLabel2: TQRLabel;
+    qrlDataIni: TQRLabel;
+    QRLabel4: TQRLabel;
+    qrlDataFim: TQRLabel;
+    qrlUsuario: TQRLabel;
+    QRImage1: TQRImage;
+    QRLabel3: TQRLabel;
+    qrlValor9: TQRLabel;
+    QRSubDetail1: TQRSubDetail;
+    DetailBand1: TQRBand;
+    QRLabel5: TQRLabel;
+    QRLabel6: TQRLabel;
+    QRLabel7: TQRLabel;
+    QRLabel8: TQRLabel;
+    QRShape2: TQRShape;
+    QRLabel15: TQRLabel;
+    QRLabel16: TQRLabel;
+    QRDBText2: TQRDBText;
+    QRDBText3: TQRDBText;
+    QRDBText1: TQRDBText;
+    QRShape3: TQRShape;
+    QRLabel10: TQRLabel;
+    qrlValor7: TQRLabel;
+    QRShape4: TQRShape;
+    QRSubDetail2: TQRSubDetail;
+    qrlValor10: TQRLabel;
+    QRLabel9: TQRLabel;
+    QRDBText4: TQRDBText;
+    QRLabel11: TQRLabel;
+    qrlValor12: TQRLabel;
+    QRLabel13: TQRLabel;
+    qrlValor11: TQRLabel;
+    qrlLote: TQRLabel;
+    QRLabel12: TQRLabel;
+    procedure qrpResumoConfStartPage(Sender: TCustomQuickRep);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmImprimeResumoConf: TfrmImprimeResumoConf;
+
+implementation
+
+uses Carro_Comando_dm, Math, ControleDiario_frm;
+
+{$R *.dfm}
+
+function AnoConfinamento: String;
+begin
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('select c_ano from confinamento where c_status = ''ATIVO''');
+       Active := True;
+       AnoConfinamento := FieldByName('c_ano').AsString;
+    end;
+end;
+
+function Controle() : String;
+begin
+    If frmControleDiario.rgpControle.ItemIndex = 0 then
+       Controle := 'P'
+    else
+       Controle := 'C';
+    If frmControleDiario.rgpControle.ItemIndex = -1 then
+       Controle := '';
+end;
+
+procedure TfrmImprimeResumoConf.qrpResumoConfStartPage(
+  Sender: TCustomQuickRep);
+var vDias, vEntrada, vSaida, vTotal, vAnimais : Integer;
+    fFoto : TStream;
+    Jpeg : TJPEGImage;
+    vAno, vControle : String;
+begin
+    DateSeparator := '/';
+    ShortDateFormat := 'yyyy-mm-dd';
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select usuario, foto from registro where codigo = 1');
+       Active := True;
+       fFoto := CreateBlobStream(FieldByName('foto'),bmRead);
+       If fFoto.Size > 0 then begin
+          Jpeg := TJPEGImage.Create;
+          Jpeg.LoadFromStream(fFoto);
+          QRImage1.Picture.Assign(Jpeg);
+       end
+       else begin
+          QRImage1.Picture.Assign(nil);
+       end;
+       Jpeg.Free;
+       fFoto.Destroy;
+       qrlUsuario.Caption := FieldByName('usuario').AsString;
+    end;
+    QRLabel16.Caption := frmControleDiario.edtDias.Text;
+    qrlValor1.Caption := frmControleDiario.LabeledEdit1.Text;
+    qrlValor2.Caption := frmControleDiario.LabeledEdit2.Text;
+    qrlValor4.Caption := frmControleDiario.LabeledEdit4.Text;
+    qrlValor6.Caption := frmControleDiario.LabeledEdit6.Text;
+    qrlValor8.Caption := frmControleDiario.LabeledEdit7.Text;
+    qrlValor9.Caption := frmControleDiario.LabeledEdit8.Text;
+    qrlValor10.Caption := frmControleDiario.LabeledEdit9.Text;
+    qrlValor7.Caption := frmControleDiario.LabeledEdit10.Text;
+    qrlValor11.Caption := frmControleDiario.LabeledEdit11.Text;
+    qrlValor12.Caption := frmControleDiario.LabeledEdit12.Text;
+    qrlLote.Caption := frmControleDiario.cbxLote.Text;
+    ShortDateFormat := 'dd/mm/yyyy';
+    DateSeparator := '/';
+    ShortDateFormat := 'yyyy-mm-dd';
+    vEntrada := StrToInt(frmControleDiario.LabeledEdit11.Text);
+    vAnimais := StrToInt(frmControleDiario.LabeledEdit10.Text);
+    vDias := StrToInt(frmControleDiario.edtDias.Text);
+    vAno := AnoConfinamento;
+    vControle := Controle;
+    vEntrada := StrToInt(frmControleDiario.LabeledEdit11.Text);
+    vSaida := StrToInt(frmControleDiario.LabeledEdit12.Text);
+    vTotal := vEntrada-vSaida;
+    vAnimais := StrToInt(frmControleDiario.LabeledEdit10.Text);
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('select P.p_nome, sum(DT.dt_qtdtotal) ''quantidade'', sum(DT.dt_vltotal)/sum(DT.dt_qtdtotal) ''valor uni'', sum(DT.dt_vltotal) ''valor'', p.p_cod from produtos P, dieta DT where P.p_cod = DT.p_cod and DT.dt_data between '+QuotedStr(DateToStr(frmControleDiario.dtpIni.Date))+' and '+QuotedStr(DateToStr(frmControleDiario.dtpFim.Date))+' and DT.lt_cod = '+QuotedStr(frmControleDiario.edtCodLote.Text)+' and DT.dt_ano = '+QuotedStr(vAno)+' and DT.dt_controle = '+QuotedStr(vControle)+' group by P.p_nome order by P.p_nome');
+       Active := True;
+       ShortDateFormat := 'dd/mm/yyyy';
+    end;
+    qrlDataIni.Caption := DateToStr(frmControleDiario.dtpIni.Date);
+    qrlDataFim.Caption := DateToStr(frmControleDiario.dtpFim.Date);
+end;
+
+end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
