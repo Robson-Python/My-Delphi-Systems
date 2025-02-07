@@ -4,72 +4,56 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, Buttons, ExtCtrls, ComCtrls, StdCtrls, DateUtils, DBCtrls,
-  Grids, DBGrids;
+  Dialogs, Buttons, ExtCtrls, ComCtrls, StdCtrls, DateUtils;
 
 type
   TfrmManutencao = class(TForm)
     Shape1: TShape;
     Panel1: TPanel;
+    btnInserir: TSpeedButton;
+    btnSelecionar: TSpeedButton;
+    btnAtualizar: TSpeedButton;
+    btnDeletar: TSpeedButton;
+    btnLimpar: TSpeedButton;
+    btnSair: TSpeedButton;
     GroupBox1: TGroupBox;
     lblVeiculo: TLabel;
-    edtCod: TLabeledEdit;
+    lblMot: TLabel;
+    edtCodMan: TLabeledEdit;
+    cbxMot: TComboBox;
     cbxVeic: TComboBox;
-    edtCodVeic: TLabeledEdit;
+    edtPlaca: TLabeledEdit;
     GroupBox2: TGroupBox;
+    dtpDtServ: TDateTimePicker;
+    lblDtServ: TLabel;
     lblVenc: TLabel;
     dtpVenc: TDateTimePicker;
-    edtKm: TLabeledEdit;
+    edtKmIni: TLabeledEdit;
     edtKmFin: TLabeledEdit;
     edtQtd: TLabeledEdit;
     edtVlUni: TLabeledEdit;
     edtVlTot: TLabeledEdit;
+    cbxServ: TComboBox;
+    edtObs: TLabeledEdit;
+    lblServ: TLabel;
     RadioGroup1: TRadioGroup;
+    btnCons: TSpeedButton;
+    lblDias: TLabel;
     Label1: TLabel;
-    cbxSistema: TComboBox;
-    btnSair: TSpeedButton;
-    btnCalc: TSpeedButton;
-    btnLimpar: TSpeedButton;
-    btnDeletar: TSpeedButton;
-    btnAtualizar: TSpeedButton;
-    btnSelecionar: TSpeedButton;
-    btnInserir: TSpeedButton;
-    btnNovo: TSpeedButton;
-    edtServico: TLabeledEdit;
-    dtpDtServ: TDateTimePicker;
-    lblDtServ: TLabel;
-    edtProduto: TLabeledEdit;
-    edtVlServico: TLabeledEdit;
-    mmoObs: TMemo;
-    lblRest: TLabel;
-    Shape3: TShape;
-    Panel4: TPanel;
-    DBGrid1: TDBGrid;
-    Panel2: TPanel;
-    DBNavigator1: TDBNavigator;
-    edtTotal: TLabeledEdit;
-    Shape2: TShape;
-    btnImprimir: TSpeedButton;
+    cbxRev: TComboBox;
     procedure btnSairClick(Sender: TObject);
     procedure btnLimparClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure btnInserirClick(Sender: TObject);
+    procedure edtKmIniEnter(Sender: TObject);
+    procedure edtVlUniExit(Sender: TObject);
     procedure btnSelecionarClick(Sender: TObject);
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnDeletarClick(Sender: TObject);
+    procedure cbxMotExit(Sender: TObject);
     procedure cbxVeicExit(Sender: TObject);
-    procedure cbxVeicChange(Sender: TObject);
-    procedure btnNovoClick(Sender: TObject);
-    procedure edtVlTotEnter(Sender: TObject);
-    procedure edtVlUniExit(Sender: TObject);
-    procedure btnCalcClick(Sender: TObject);
-    procedure DBGrid1MouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure cbxVeicKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure DBGrid1DblClick(Sender: TObject);
-    procedure btnImprimirClick(Sender: TObject);
+    procedure btnConsClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -81,18 +65,29 @@ var
 
 implementation
 
-uses Carro_Comando_dm, DB, Manutencao_qrp;
+uses Carro_Comando_dm, ADODB, Principal_frm, TodasManut_frm;
 
 {$R *.dfm}
 
 function fBuscaCodMan() : Integer;
 begin
-    With dmCarroComando.zqCarro do begin
+    With dmCarroComando.ADOQuery1 do begin
        Active := False;
        SQL.Clear;
-       SQL.Add('Select mt_cod from manutencao order by mt_cod desc');
+       SQL.Add('Select Count(*) as ultimo from manutencao');
        Active := True;
-       fBuscaCodMan := FieldByName('mt_cod').AsInteger;
+       fBuscaCodMan := FieldByName('ultimo').AsInteger;
+    end;
+end;
+
+function fBuscaCpf() : String;
+begin
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select cpf from motoristas where nome = '+QuotedStr(frmManutencao.cbxMot.Text)+'');
+       Active := True;
+       fBuscaCpf:= FieldByName('cpf').AsString;
     end;
 end;
 
@@ -144,60 +139,63 @@ begin
     frmManutencao.edtQtd.Text := valor;
 end;
 
-function fConvertServico() : String;
-var valor : String;
-    tamanho, i : Integer;
+function sStatus() : String;
 begin
-    valor := frmManutencao.edtServico.Text;
-    tamanho := Length(valor);
-    for i := 0 to tamanho do begin
-    If valor[i] = '.' then
-       valor[i] := ','
+    If frmManutencao.RadioGroup1.ItemIndex = 1 then
+       sStatus := 'VENCIDO'
     else
-       if valor[i] = ',' then
-          valor[i] := '.';
-    end;
-    frmManutencao.edtServico.Text := valor;
-end;
-
-function vStatus() : String;
-begin
-    If frmManutencao.RadioGroup1.ItemIndex = 0 then
-       vStatus := 'SIM'
-    else
-       vStatus := 'NÃO'
+       sStatus := 'ATIVO'
 end;
 
 procedure TfrmManutencao.btnSairClick(Sender: TObject);
 begin
-    With dmCarroComando.zqCarro do begin
-       SQL.Clear;
-       Active := False;
-    end;
+    dmCarroComando.ADOQuery1.Active := False;
     Close;
 end;
 
 procedure TfrmManutencao.btnLimparClick(Sender: TObject);
 begin
-    DBGrid1.DataSource.Enabled := False;
-    edtCod.Clear; edtCodVeic.Clear; edtServico.Clear; edtProduto.Clear; edtKm.Clear; edtKmFin.Clear; edtQtd.Text := '0'; edtVlUni.Text := '0,00'; edtVlServico.Text := '0,00'; edtVlTot.Text := '0,00'; edtTotal.Text := '0,00';
-    cbxVeic.Text := ''; cbxSistema.Text := '';
+    edtCodMan.Clear; edtCodMan.Clear; edtPlaca.Clear; edtKmIni.Text := '0'; edtKmFin.Text := '0'; edtQtd.Text := '0'; edtVlTot.Text := '0'; edtObs.Clear; edtVlUni.Text := '0'; cbxRev.Clear;
+    cbxMot.Clear; cbxVeic.Clear; cbxServ.Text := '';
     dtpDtServ.Date := Date; dtpVenc.Date := Date;
-    mmoObs.Clear;
     RadioGroup1.ItemIndex := -1;
-    dmCarroComando.zqCarro.SQL.Clear;
+    If dtpVenc.Color = clRed then begin
+       dtpVenc.Color := clWindow;
+       lblDias.Visible := False;
+    end;
+    FormCreate(Sender);
     cbxVeic.SetFocus;
 end;
 
 procedure TfrmManutencao.FormCreate(Sender: TObject);
 begin
-    With dmCarroComando.zqCarro do begin
+    With dmCarroComando.ADOQuery1 do begin
        Active := False;
        SQL.Clear;
-       SQL.Add('Select * from carros order by c_mmodelo');
+       SQL.Add('Select * from carros order by modelo');
        Active := True;
        while not Eof do begin
-          cbxVeic.Items.Add(FieldByName('c_mmodelo').AsString);
+          cbxVeic.Items.Add(FieldByName('modelo').AsString);
+          Next;
+       end;
+    end;
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select * from motoristas order by nome');
+       Active := True;
+       while not Eof do begin
+          cbxMot.Items.Add(FieldByName('nome').AsString);
+          Next;
+       end;
+    end;
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select * from fornecedores order by fn_nome');
+       Active := True;
+       while not Eof do begin
+          cbxRev.Items.Add(FieldByName('fn_nome').AsString);
           Next;
        end;
     end;
@@ -205,277 +203,195 @@ end;
 
 procedure TfrmManutencao.FormShow(Sender: TObject);
 begin
-    DBGrid1.DataSource.Enabled := False;
     dtpDtServ.Date := Date;
     dtpVenc.Date := Date;
+    edtKmIni.Text := '0'; edtKmFin.Text := '0'; edtQtd.Text :='0'; edtVlUni.Text := '0'; edtVlTot.Text := '0';
     cbxVeic.SetFocus;
 end;
 
 procedure TfrmManutencao.btnInserirClick(Sender: TObject);
+var nNovo : Integer;
+    cCpf, sSit : String;
 begin
-    If edtCod.Text <> '' then begin
-       DateSeparator := '/';
-       ShortDateFormat := 'yyyy-mm-dd';
-       fConvertVlUni;
-       fConvertVlTot;
-       fConvertQtd;
-       fConvertServico;
-       With dmCarroComando.zqCarro do begin
+    nNovo := fBuscaCodMan + 1;
+    cCpf := fBuscaCpf;
+    sSit := sStatus;
+    DateSeparator := '/';
+    ShortDateFormat := 'yyyy-mm-dd';
+    edtCodMan.Text := IntToStr(nNovo);
+    fConvertVlUni;
+    fConvertVlTot;
+    fConvertQtd;
+    If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+       With dmCarroComando.ADOQuery1 do begin
           Active := False;
           SQL.Clear;
-          SQL.Add('Insert into manutencao (MT_COD, C_COD, MT_SERVICO, MT_SISTEMA, MT_PRODUTO, MT_DTSERVICO, MT_DTPXSERVICO, MT_KMINI, MT_KMFIM, MT_QTD, MT_VALOR, MT_VLSERVICO, MT_VTOTAL, MT_STATUS, MT_OBS) Values ('+QuotedStr(edtCod.Text)+', '+QuotedStr(edtCodVeic.Text)+', '+QuotedStr(edtServico.Text)+', '+QuotedStr(cbxSistema.Text)+', '+QuotedStr(edtProduto.Text)+', '+QuotedStr(DateToStr(dtpDtServ.Date))+', '+QuotedStr(DateToStr(dtpVenc.Date))+', '+QuotedStr(edtKm.Text)+', '+QuotedStr(edtKmFin.Text)+', '+QuotedStr(edtQtd.Text)+', '+QuotedStr(edtVlUni.Text)+', '+QuotedStr(edtVlServico.Text)+', '+QuotedStr(edtVlTot.Text)+', '+QuotedStr(vStatus)+', '+QuotedStr(mmoObs.Text)+')');
+          SQL.Add('Insert into manutencao (MT_COD, PLACA, CPF, MT_MANUT, MT_LOJA, MT_DTSERV, MT_DTVENC, MT_KMINI, MT_KMFIN, MT_QTD, MT_VLUNI, MT_VLTOT, MT_OBS, MT_SIT) Values ('+QuotedStr(edtCodMan.Text)+', '+QuotedStr(edtPlaca.Text)+', '+QuotedStr(cCpf)+', '+QuotedStr(cbxServ.Text)+', '+QuotedStr(cbxRev.Text)+', '+QuotedStr(DateToStr(dtpDtServ.Date))+', '+QuotedStr(DateToStr(dtpVenc.Date))+', '+QuotedStr(edtKmIni.Text)+', '+QuotedStr(edtKmFin.Text)+', '+QuotedStr(edtQtd.Text)+', '+QuotedStr(edtVlUni.Text)+', '+QuotedStr(edtVlTot.Text)+', '+QuotedStr(edtObs.Text)+', '+QuotedStr(sSit)+')');
           ExecSQL;
           ShortDateFormat := 'dd/mm/yyyy';
           fConvertVlUni;
           fConvertVlTot;
           fConvertQtd;
-          fConvertServico;
-          Application.MessageBox('Registro Efetuado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
+          Application.MessageBox('Registro Efetuado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+          btnLimparClick(Sender);
        end;
-       edtCod.Clear; edtServico.Clear; edtProduto.Clear; edtKm.Clear; edtKmFin.Clear; edtQtd.Text := '0'; edtVlUni.Text := '0,00'; edtVlServico.Text := '0,00'; edtVlTot.Text := '0,00';
-       dtpDtServ.Date := Date; dtpVenc.Date := Date;
-       mmoObs.Clear;
-       RadioGroup1.ItemIndex := -1;
-       btnSelecionarClick(Self);
     end
     else begin
-       Application.MessageBox('O campo código não pode estar vazio!','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
     end;
+end;
+
+procedure TfrmManutencao.edtKmIniEnter(Sender: TObject);
+begin
+     With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select km_fin from carros where placa = '+QuotedStr(edtPlaca.Text)+'');
+       Active := True;
+       edtKmIni.Text := FieldByName('km_fin').AsString;
+    end;
+end;
+
+procedure TfrmManutencao.edtVlUniExit(Sender: TObject);
+var vQtd, vVlUni : Double;
+begin
+    vQtd := StrToFloat(edtQtd.Text);
+    vVlUni := StrToFloat(edtVlUni.Text);
+    edtVlTot.Text := FloatToStr(vQtd * vVlUni);
+    edtVlTot.Text := FormatFloat('0.##', (StrToFloat(edtVlTot.Text)));
+    edtVlUni.Text := FormatCurr('0.00', StrToFloat(edtVlUni.Text));
+    edtVlTot.Text := FormatCurr('0.00', StrToFloat(edtVlTot.Text));
 end;
 
 procedure TfrmManutencao.btnSelecionarClick(Sender: TObject);
 begin
-    If cbxVeic.Text <> '' then begin
-       If cbxSistema.Text = '' then begin
-          Application.MessageBox('Por favor, selecione o Sistema para consultar!','MyCar - Atenção',MB_OK+MB_ICONINFORMATION);
-          cbxSistema.SetFocus;
+    ActiveControl := nil;
+    With dmCarroComando.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select * from carros, motoristas, manutencao where carros.placa = '+QuotedStr(edtPlaca.Text)+' and manutencao.mt_manut = '+QuotedStr(cbxServ.Text)+' and manutencao.mt_sit = ''ATIVO'' and carros.placa = manutencao.placa and motoristas.cpf = manutencao.cpf');
+       Active := True;
+       If RecordCount = 0 then begin
+          Application.MessageBox('Nenhum registro encontrado...','Carro Comando - Informação',MB_OK+MB_ICONINFORMATION);
+          btnLimparClick(Sender);
+          cbxVeic.SetFocus;
        end
        else begin
-          With dmCarroComando.zqCarro do begin
-             Active := False;
-             SQL.Clear;
-             SQL.Add('select sum(mt_vtotal) from manutencao where c_cod = '+QuotedStr(edtCodVeic.Text)+' and mt_sistema = '+QuotedStr(cbxSistema.Text)+'');
-             Active := True;
-             If FieldByName('sum(mt_vtotal)').AsString <> '' then begin
-                edtTotal.Text := FieldByName('sum(mt_vtotal)').AsString;
-                edtTotal.Text := FormatCurr(',0.00', StrToFloat(edtTotal.Text));
+          edtCodMan.Text := FieldByName('mt_cod').AsString;
+          cbxMot.Text := FieldByName('nome').AsString;
+          cbxServ.Text := FieldByName('mt_manut').AsString;
+          cbxRev.Text := FieldByName('mt_loja').AsString;
+          dtpDtServ.Date := FieldByName('mt_dtserv').AsDateTime;
+          dtpVenc.Date := FieldByName('mt_dtvenc').AsDateTime;
+          edtKmIni.Text := FieldByName('mt_kmini').AsString;
+          edtKmFin.Text := FieldByName('mt_kmfin').AsString;
+          edtQtd.Text := FieldByName('mt_qtd').AsString;
+          edtVlUni.Text := FieldByName('mt_vluni').AsString;
+          edtVlTot.Text := FieldByName('mt_vltot').AsString;
+          edtObs.Text := FieldByName('mt_obs').AsString;
+          edtVlUni.Text := FormatCurr('0.00', StrToCurr(edtVlUni.Text));
+          edtVlTot.Text := FormatCurr('0.00', StrToCurr(edtVlTot.Text));
+          If FieldByName('mt_sit').AsString = 'ATIVO' then
+             RadioGroup1.ItemIndex := 0
+          else
+             RadioGroup1.ItemIndex := 1;
+          end;
+          If edtCodMan.Text <> '' then begin
+             If dtpVenc.Date < Now then begin
+                dtpVenc.Color := clRed;
+                Application.MessageBox('Este serviço está vencido! Providencie a regularização o mais breve possível para evitar futuros transtornos com seu veículo.','Carro Comando - Aviso',MB_OK+MB_ICONWARNING);
+                lblDias.Caption := 'Vencida há '+IntToStr(DaysBetween(dtpVenc.Date,Now))+ 'dias';
+                lblDias.Visible := True;
              end
              else begin
-                edtTotal.Text := '0,00';
+                lblDias.Visible := False;
+                dtpVenc.Color := clWindow;
              end;
-             Active := False;
-             SQL.Clear;
-             SQL.Add('Select * from manutencao where c_cod = '+QuotedStr(edtCodVeic.Text)+' and mt_sistema = '+QuotedStr(cbxSistema.Text)+' order by mt_dtservico desc, mt_servico');
-             Active := True;
-             DBGrid1.DataSource.Enabled := True;
-             Open;
-             (FieldByName('mt_valor') as TNumericField).DisplayFormat := ',0.00';
-             (FieldByName('mt_vtotal') as TNumericField).DisplayFormat := ',0.00';
-             (FieldByName('mt_vlservico') as TNumericField).DisplayFormat := ',0.00';
-             DBGrid1.Columns.Items[0].FieldName := FieldByName('mt_cod').FieldName;
-             DBGrid1.Columns.Items[1].FieldName := FieldByName('mt_servico').FieldName;
-             DBGrid1.Columns.Items[2].FieldName := FieldByName('mt_dtservico').FieldName;
-             DBGrid1.Columns.Items[3].FieldName := FieldByName('mt_dtpxservico').FieldName;
-             DBGrid1.Columns.Items[4].FieldName := FieldByName('mt_qtd').FieldName;
-             DBGrid1.Columns.Items[5].FieldName := FieldByName('mt_valor').FieldName;
-             DBGrid1.Columns.Items[6].FieldName := FieldByName('mt_vlservico').FieldName;
-             DBGrid1.Columns.Items[7].FieldName := FieldByName('mt_vtotal').FieldName;
-             DBGrid1.Columns.Items[8].FieldName := FieldByName('mt_status').FieldName;
           end;
        end;
-    end
-    else begin
-       Application.MessageBox('O campo Veículo não pode ser vazio! Selecione um veículo para consultar dados.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
-    end;
+       cbxVeic.SetFocus;
 end;
 
 procedure TfrmManutencao.btnAtualizarClick(Sender: TObject);
+var cCpf, sSit : String;
 begin
-    If edtCod.Text <> '' then begin
+    If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+       cCpf := fBuscaCpf;
+       sSit := sStatus;
        DateSeparator := '/';
        ShortDateFormat := 'yyyy-mm-dd';
        fConvertVlUni;
        fConvertVlTot;
        fConvertQtd;
-       fConvertServico;
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           Active := False;
           SQL.Clear;
-          SQL.Add('Update manutencao set MT_SERVICO = '+QuotedStr(edtServico.Text)+', MT_SISTEMA = '+QuotedStr(cbxSistema.Text)+', MT_PRODUTO = '+QuotedStr(edtProduto.Text)+', MT_DTSERVICO = '+QuotedStr(DateToStr(dtpDtServ.Date))+', MT_DTPXSERVICO = '+QuotedStr(DateToStr(dtpVenc.Date))+', MT_KMINI = '+QuotedStr(edtKm.Text)+', MT_KMFIM = '+QuotedStr(edtKmFin.Text)+', MT_QTD = '+QuotedStr(edtQtd.Text)+', MT_VALOR = '+QuotedStr(edtVlUni.Text)+', MT_VLSERVICO = '+QuotedStr(edtVlServico.Text)+', MT_VTOTAL = '+QuotedStr(edtVlTot.Text)+', MT_STATUS = '+QuotedStr(vStatus)+', MT_OBS = '+QuotedStr(mmoObs.Text)+' where mt_cod = '+QuotedStr(edtCod.Text)+'');
+          SQL.Add('Update manutencao set MT_COD = '+QuotedStr(edtCodMan.Text)+', PLACA = '+QuotedStr(edtPlaca.Text)+', CPF = '+QuotedStr(cCpf)+', MT_MANUT = '+QuotedStr(cbxServ.Text)+', MT_LOJA = '+QuotedStr(cbxRev.Text)+', MT_DTSERV = '+QuotedStr(DateToStr(dtpDtServ.Date))+', MT_DTVENC = '+QuotedStr(DateToStr(dtpVenc.Date))+', MT_KMINI = '+QuotedStr(edtKmIni.Text)+', MT_KMFIN = '+QuotedStr(edtKmFin.Text)+', MT_QTD = '+QuotedStr(edtQtd.Text)+', MT_VLUNI = '+QuotedStr(edtVlUni.Text)+', MT_VLTOT = '+QuotedStr(edtVlTot.Text)+', MT_OBS = '+QuotedStr(edtObs.Text)+', MT_SIT = '+QuotedStr(sSit)+' where mt_cod = '+QuotedStr(edtCodMan.Text)+'');
           ExecSQL;
        end;
        fConvertVlUni;
        fConvertVlTot;
        fConvertQtd;
-       fConvertServico;
        ShortDateFormat := 'dd/mm/yyyy';
-       Application.MessageBox('Registro Atualizado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
-       btnSelecionarClick(Self);
+       Application.MessageBox('Registro Atualizado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+       If RadioGroup1.ItemIndex = 0 then begin
+          btnSelecionarClick(Sender);
+       end
+       else begin
+          btnLimparClick(Sender);
+       end;
+       cbxVeic.SetFocus;
     end
     else begin
-       Application.MessageBox('O campo código não pode ser vazio! Selecione um veículo para atualizar dados.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
     end;
 end;
 
 procedure TfrmManutencao.btnDeletarClick(Sender: TObject);
 begin
-    If edtCod.Text <> '' then begin
-       If Application.MessageBox('Excluir Registro?','MyCar - Confirmação de Exclusão',MB_YESNO+MB_ICONEXCLAMATION) = ID_YES then begin
-          With dmCarroComando.zqCarro do begin
+    DateSeparator := '/';
+    ShortDateFormat := 'yyyy-mm-dd';
+    If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+       If Application.MessageBox('Excluir Registro?','Carro Comando - Confirmação de Exclusão',MB_YESNO+MB_ICONEXCLAMATION) = ID_YES then begin
+          With dmCarroComando.ADOQuery1 do begin
              Active := False;
              SQL.Clear;
-             SQL.Add('Delete from manutencao where mt_cod = '+ QuotedStr(edtCod.Text)+'');
+             SQL.Add('Delete from manutencao where mt_cod = '+ QuotedStr(edtCodMan.Text)+'');
              ExecSQL;
-             Application.MessageBox('Registro Deletado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
-             edtCod.Clear; edtServico.Clear; edtProduto.Clear; edtKm.Clear; edtKmFin.Clear; edtQtd.Text := '0'; edtVlUni.Text := '0,00'; edtVlServico.Text := '0,00'; edtVlTot.Text := '0,00';
-             cbxSistema.Text := '';
-             dtpDtServ.Date := Date; dtpVenc.Date := Date;
-             mmoObs.Clear;
-             RadioGroup1.ItemIndex := -1;
-             btnSelecionarClick(Self);
+             Application.MessageBox('Registro Deletado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+             btnLimparClick(Sender);
+             ShortDateFormat := 'dd/mm/yyyy';
           end;
        end;
     end
     else begin
-       Application.MessageBox('O campo código não pode ser vazio! Selecione um veículo para atualizar dados.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
     end;
+end;
+
+procedure TfrmManutencao.cbxMotExit(Sender: TObject);
+begin
+    cbxServ.SetFocus;
 end;
 
 procedure TfrmManutencao.cbxVeicExit(Sender: TObject);
 begin
-    If edtCodVeic.Text = '' then begin
-        With dmCarroComando.zqCarro do begin
-           Active := False;
-           SQL.Clear;
-           SQL.Add('Select c_cod from carros where c_mmodelo = '+QuotedStr(cbxVeic.Text)+'');
-           Active := True;
-           edtCodVeic.Text := FieldByName('c_cod').AsString;
-        end;
-    end;
-    If edtCod.Text = '' then begin
-       cbxSistema.SetFocus;
-    end
-    else begin
-       edtServico.SetFocus;
-    end;
-end;
-
-procedure TfrmManutencao.cbxVeicChange(Sender: TObject);
-begin
-    If cbxVeic.Text <> '' then begin
-        With dmCarroComando.zqCarro do begin
-           Active := False;
-           SQL.Clear;
-           SQL.Add('Select c_cod from carros where c_mmodelo = '+QuotedStr(cbxVeic.Text)+'');
-           Active := True;
-           edtCodVeic.Text := FieldByName('c_cod').AsString;
-        end;
-    end;
-end;
-
-procedure TfrmManutencao.btnNovoClick(Sender: TObject);
-var nNovo: Integer;
-begin
-    btnLimparClick(Self);
-    nNovo := fBuscaCodMan + 1;
-    edtCod.Text := IntToStr(nNovo);
-    cbxVeic.SetFocus;
-end;
-
-procedure TfrmManutencao.edtVlTotEnter(Sender: TObject);
-var vQtd, vVlUni, vServico : Double;
-begin
-    vQtd := StrToFloat(edtQtd.Text);
-    vVlUni := StrToFloat(edtVlUni.Text);
-    vServico := StrToFloat(edtVlServico.Text);
-    edtVlTot.Text := FloatToStr((vQtd*vVlUni)+vServico);
-    edtVlServico.Text := FormatCurr('0.00', StrToFloat(edtVlServico.Text));
-    edtVlTot.Text := FormatCurr('0.00', StrToFloat(edtVlTot.Text));
-end;
-
-procedure TfrmManutencao.edtVlUniExit(Sender: TObject);
-begin
-    edtVlUni.Text := FormatCurr('0.00', StrToCurr(edtVlUni.Text));
-end;
-
-procedure TfrmManutencao.btnCalcClick(Sender: TObject);
-begin
-    Try
-      WinExec('Calc.exe',Sw_Show);
-    Except
-      ShowMessage('Verifique se a Calculadora foi Instalada pelo Windows!');
-    end;
-end;
-
-procedure TfrmManutencao.DBGrid1MouseMove(Sender: TObject;
-  Shift: TShiftState; X, Y: Integer);
-begin
-    If edtCodVeic.Text <> '' then
-       DBGrid1.Hint := 'Para editar, atualizar ou excluir os dados, dê um duplo clique no registro selecionado'
-    else
-       DBGrid1.Hint := '';
-end;
-
-procedure TfrmManutencao.cbxVeicKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-    If Key = VK_RETURN then begin
-       btnSelecionarClick(Self);
-    end;
-end;
-
-procedure TfrmManutencao.DBGrid1DblClick(Sender: TObject);
-begin
-    edtCod.Text := DBGrid1.SelectedField.Text;
-    DBGrid1.DataSource.Enabled := False;
-    With dmCarroComando.zqCarro do begin
+    With dmCarroComando.ADOQuery1 do begin
        Active := False;
        SQL.Clear;
-       SQL.Add('select * from manutencao where mt_cod = '+QuotedStr(edtCod.Text)+'');
+       SQL.Add('Select placa from carros where modelo = '+QuotedStr(cbxVeic.Text)+'');
        Active := True;
-       edtServico.Text := FieldByName('mt_servico').AsString;
-       cbxSistema.Text := FieldByName('mt_sistema').AsString;
-       edtProduto.Text := FieldByName('mt_produto').AsString;
-       dtpDtServ.Date := FieldByName('mt_dtservico').AsDateTime;
-       dtpVenc.Date := FieldByName('mt_dtpxservico').AsDateTime;
-       edtKm.Text := FieldByName('mt_kmini').AsString;
-       edtKmFin.Text := FieldByName('mt_kmfim').AsString;
-       edtQtd.Text := FieldByName('mt_qtd').AsString;
-       edtVlUni.Text := FieldByName('mt_valor').AsString;
-       edtVlServico.Text := FieldByName('mt_vlservico').AsString;
-       edtVlTot.Text := FieldByName('mt_vtotal').AsString;
-       mmoObs.Text := FieldByName('mt_obs').AsString;
-       If FieldByName('mt_status').AsString = 'SIM' then begin
-          RadioGroup1.ItemIndex := 0
-       end
-       else begin
-          RadioGroup1.ItemIndex := 1;
-       end;
+       edtPlaca.Text := FieldByName('placa').AsString;
     end;
-    edtVlTot.Text := FormatCurr('0.00', StrToCurr(edtVlTot.Text));
-    edtVlServico.Text := FormatCurr('0.00', StrToCurr(edtVlServico.Text));
-    edtVlUni.Text := FormatCurr('0.00', StrToCurr(edtVlUni.Text));
-    btnSelecionarClick(Self);
-    edtServico.SetFocus;
 end;
 
-procedure TfrmManutencao.btnImprimirClick(Sender: TObject);
+procedure TfrmManutencao.btnConsClick(Sender: TObject);
 begin
-    If cbxVeic.Text <> '' then begin
-       Try
-         Application.CreateForm(TqrpManutencao, qrpManutencao);
-         btnSelecionarClick(Self);
-         qrpManutencao.qrlTotal.Caption := edtTotal.Text;
-         qrpManutencao.qrlCodVeiculo.Caption := edtCodVeic.Text;
-         qrpManutencao.qrlVeiculo.Caption := cbxVeic.Text;
-         qrpManutencao.Preview;
-       Finally
-            qrpManutencao.Free;
-       end;
-       edtTotal.Text := '0,00';
-    end
-    else begin
-       Application.MessageBox('Selecione o Veículo para imprimir!','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+    Try
+      Application.CreateForm(TfrmTodasManut, frmTodasManut);
+      frmTodasManut.ShowModal;
+    Finally
+         frmTodasManut.Free;
     end;
 end;
 

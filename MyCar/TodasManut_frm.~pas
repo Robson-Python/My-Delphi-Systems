@@ -1,0 +1,43 @@
+unit TodasManut_frm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Buttons, ComCtrls, Grids, DBGrids, ExtCtrls, DBCtrls;
+
+type
+  TfrmTodasManut = class(TForm)
+    Panel2: TPanel;
+    DBNavigator1: TDBNavigator;
+    Shape2: TShape;
+    DBGrid1: TDBGrid;
+    Shape1: TShape;
+    Panel4: TPanel;
+    Panel1: TPanel;
+    GroupBox1: TGroupBox;
+    cbxVeic: TComboBox;
+    edtPlaca: TEdit;
+    GroupBox2: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    CheckBox1: TCheckBox;
+    btnExecutar: TBitBtn;
+    btnSair: TBitBtn;
+    RadioButton1: TRadioButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmTodasManut: TfrmTodasManut;
+
+implementation
+
+{$R *.dfm}
+
+end.

@@ -13,6 +13,7 @@ type
     Panel1: TPanel;
     Shape1: TShape;
     Label22: TLabel;
+    procedure FormActivate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -25,5 +26,10 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmSplash.FormActivate(Sender: TObject);
+begin
+    Screen.Cursor := crSQLWait;
+end;
 
 end.

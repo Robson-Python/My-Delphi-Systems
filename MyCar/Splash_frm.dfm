@@ -18271,16 +18271,16 @@ object frmSplash: TfrmSplash
     IsControl = True
   end
   object Label1: TLabel
-    Left = 160
-    Top = 248
-    Width = 249
-    Height = 90
-    Caption = 'MyCar'
+    Left = 48
+    Top = 272
+    Width = 460
+    Height = 73
+    Caption = 'Carro Comando'
     Font.Charset = ANSI_CHARSET
-    Font.Color = clBlue
+    Font.Color = clNavy
     Font.Height = -64
-    Font.Name = 'Arial Black'
-    Font.Style = [fsBold, fsItalic]
+    Font.Name = 'Bauhaus 93'
+    Font.Style = [fsItalic]
     ParentFont = False
     Transparent = True
   end
@@ -18291,13 +18291,13 @@ object frmSplash: TfrmSplash
     Height = 25
   end
   object Label22: TLabel
-    Left = 408
-    Top = 280
+    Left = 520
+    Top = 296
     Width = 9
     Height = 13
     Caption = #174
     Font.Charset = ANSI_CHARSET
-    Font.Color = clBlue
+    Font.Color = clNavy
     Font.Height = -11
     Font.Name = 'Arial'
     Font.Style = [fsBold, fsItalic]
@@ -18309,7 +18309,7 @@ object frmSplash: TfrmSplash
     Top = 336
     Width = 561
     Height = 25
-    Caption = #169' 2013 - Robson Silva Softwares'
+    Caption = #169' 2008 - Robson Silva Softwares'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -11

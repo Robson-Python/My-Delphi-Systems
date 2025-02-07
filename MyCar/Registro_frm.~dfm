@@ -3,8 +3,8 @@ object frmRegistro: TfrmRegistro
   Top = 114
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'MyCar - Registro de Usu'#225'rio'
-  ClientHeight = 280
+  Caption = 'Carro Comando - Registro de Usu'#225'rio'
+  ClientHeight = 312
   ClientWidth = 687
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -19,9 +19,9 @@ object frmRegistro: TfrmRegistro
   TextHeight = 13
   object GroupBox1: TGroupBox
     Left = 8
-    Top = 8
+    Top = 0
     Width = 673
-    Height = 265
+    Height = 305
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -29,22 +29,16 @@ object frmRegistro: TfrmRegistro
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
-    object Shape2: TShape
-      Left = 512
-      Top = 16
-      Width = 129
-      Height = 97
-    end
     object lblCep: TLabel
-      Left = 352
-      Top = 144
+      Left = 320
+      Top = 128
       Width = 25
       Height = 16
       Caption = 'Cep'
     end
     object lblCpf: TLabel
-      Left = 408
-      Top = 32
+      Left = 288
+      Top = 16
       Width = 26
       Height = 16
       Caption = 'CPF'
@@ -54,6 +48,142 @@ object frmRegistro: TfrmRegistro
       Font.Name = 'Arial'
       Font.Style = [fsBold]
       ParentFont = False
+    end
+    object lblDtImplant: TLabel
+      Left = 16
+      Top = 176
+      Width = 112
+      Height = 16
+      Caption = 'Data Implanta'#231#227'o'
+      Enabled = False
+    end
+    object lblValid: TLabel
+      Left = 256
+      Top = 176
+      Width = 111
+      Height = 16
+      Caption = 'Validade Licen'#231'a'
+      Enabled = False
+    end
+    object Shape2: TShape
+      Left = 512
+      Top = 16
+      Width = 129
+      Height = 97
+    end
+    object edtUser: TLabeledEdit
+      Left = 16
+      Top = 32
+      Width = 257
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 89
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Nome Usu'#225'rio'
+      TabOrder = 0
+    end
+    object edtEnd: TLabeledEdit
+      Left = 16
+      Top = 88
+      Width = 257
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 60
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Endere'#231'o'
+      TabOrder = 3
+    end
+    object edtBairro: TLabeledEdit
+      Left = 288
+      Top = 88
+      Width = 193
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 39
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Bairro'
+      TabOrder = 4
+    end
+    object edtCid: TLabeledEdit
+      Left = 16
+      Top = 144
+      Width = 225
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 45
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Cidade'
+      TabOrder = 5
+    end
+    object edtUf: TLabeledEdit
+      Left = 256
+      Top = 144
+      Width = 49
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 17
+      EditLabel.Height = 16
+      EditLabel.Caption = 'UF'
+      TabOrder = 6
+    end
+    object mkeCpf: TMaskEdit
+      Left = 288
+      Top = 32
+      Width = 89
+      Height = 24
+      CharCase = ecUpperCase
+      EditMask = '000000000-00;1;_'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Arial'
+      Font.Style = [fsBold]
+      MaxLength = 12
+      ParentFont = False
+      TabOrder = 1
+      Text = '         -  '
+    end
+    object edtRg: TLabeledEdit
+      Left = 392
+      Top = 32
+      Width = 89
+      Height = 24
+      CharCase = ecUpperCase
+      EditLabel.Width = 68
+      EditLabel.Height = 16
+      EditLabel.Caption = 'Identidade'
+      TabOrder = 2
+    end
+    object edtRegistro: TLabeledEdit
+      Left = 136
+      Top = 192
+      Width = 105
+      Height = 24
+      EditLabel.Width = 70
+      EditLabel.Height = 16
+      EditLabel.Caption = 'N'#186' Registro'
+      Enabled = False
+      TabOrder = 9
+    end
+    object dtpDtImplant: TDateTimePicker
+      Left = 16
+      Top = 192
+      Width = 105
+      Height = 24
+      Date = 39779.766864756930000000
+      Time = 39779.766864756930000000
+      Enabled = False
+      TabOrder = 8
+    end
+    object dtpValidade: TDateTimePicker
+      Left = 256
+      Top = 192
+      Width = 113
+      Height = 24
+      Date = 39779.771270625000000000
+      Time = 39779.771270625000000000
+      Enabled = False
+      TabOrder = 10
     end
     object Panel2: TPanel
       Left = 512
@@ -69,7 +199,7 @@ object frmRegistro: TfrmRegistro
       Font.Name = 'Arial'
       Font.Style = [fsBold]
       ParentFont = False
-      TabOrder = 13
+      TabOrder = 11
       object Image1: TImage
         Left = 0
         Top = 0
@@ -86,7 +216,7 @@ object frmRegistro: TfrmRegistro
       Height = 41
       Cursor = crHandPoint
       Caption = 'Carregar Foto'
-      TabOrder = 11
+      TabOrder = 12
       OnClick = btnFotoClick
       Glyph.Data = {
         360C0000424D360C000000000000360000002800000020000000200000000100
@@ -195,7 +325,7 @@ object frmRegistro: TfrmRegistro
       Height = 41
       Cursor = crHandPoint
       Caption = 'Remover Foto'
-      TabOrder = 12
+      TabOrder = 13
       OnClick = btnRemoverClick
       Glyph.Data = {
         7E090000424D7E0900000000000036000000280000001D0000001B0000000100
@@ -277,16 +407,17 @@ object frmRegistro: TfrmRegistro
         0000}
     end
     object btnRegist: TBitBtn
-      Left = 72
-      Top = 216
+      Left = 80
+      Top = 256
       Width = 105
       Height = 33
       Cursor = crHandPoint
       Hint = 'Registra os dados do Usu'#225'rio'
       Caption = 'Registrar'
+      Enabled = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 8
+      TabOrder = 14
       OnClick = btnRegistClick
       Glyph.Data = {
         D6050000424DD605000000000000360000002800000017000000140000000100
@@ -338,8 +469,8 @@ object frmRegistro: TfrmRegistro
         00000000000704F30505F3000000000000000000000000000000}
     end
     object btnAtual: TBitBtn
-      Left = 184
-      Top = 216
+      Left = 192
+      Top = 256
       Width = 121
       Height = 33
       Cursor = crHandPoint
@@ -347,7 +478,7 @@ object frmRegistro: TfrmRegistro
       Caption = 'Atualizar'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 9
+      TabOrder = 15
       OnClick = btnAtualClick
       Glyph.Data = {
         22050000424D2205000000000000360000002800000013000000150000000100
@@ -393,9 +524,79 @@ object frmRegistro: TfrmRegistro
         BDACE6C8B5EBC8B4EECBB7EECBB7FAD2BFFFD5C2FFFDF9000000000000000000
         000000000000}
     end
+    object btnRenovar: TBitBtn
+      Left = 320
+      Top = 256
+      Width = 153
+      Height = 33
+      Cursor = crHandPoint
+      Hint = 'Renova a Lincen'#231'a de uso'
+      Caption = 'Renovar Licen'#231'a'
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 16
+      OnClick = btnRenovarClick
+      Glyph.Data = {
+        F6060000424DF606000000000000360000002800000017000000180000000100
+        180000000000C006000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000B8B0B0
+        382C2C2D2121433B3B0000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        00007869673728269A8E8E635757493A38594D4DB0A8A8000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000004E3F3D645251B5A4A1F2ECE7D2CCC7A596933826254133349F
+        9797000000000000000000000000000000000000000000000000000000000000
+        000000000000000000000000564241E1D5CFFFFFF6C7D1C01D381E213B236F82
+        6DF8F0E9AD9E9B453332AFAAA900000000000000000000000000000000000000
+        00000000000000000000000000000000008172706F5A58FAFAEC96A98E1E461C
+        083F0E063C0D043208ADBCA7F7F5EAB2A3A05A4E4ED1CCCB0000000000000000
+        00000000000000000000000000000000000000000000CDBBBA473230D6C4BD84
+        9C791848140D500D07500C074E0F07490E11371396A990FAF6EB211210887C7C
+        0000000000000000000000000000000000000000000000000000000000007052
+        51F9E6D7BECEA5116808066F02096E050867060964070B610D06540D09490D23
+        491FCBBFB5311D1C746A6A000000000000000000000000000000000000000000
+        000000000000C9ACA8EDEACE538B3E0E7C040A7F020C7C060C74030B71020B6B
+        060A610B0D5A1008490BEBE6D7826E6D37292A00000000000000000000000000
+        000000000000000000000071504DDFE4BD6091471F891112910C20891C99D997
+        69B164227C191581090C7500096D03096407436739CED7BD786960D3CFCE0000
+        00000000000000000000000000000000EDE0DE613C38B2D0953A882A1E941725
+        90238EDA8CE8FFE8E4FFE169AE632383181280040D79010A6F031A54139AB48C
+        A49789ABA3A3000000000000000000000000000000FFFEFFB6A2A196706C76B2
+        64279126239D2793D796E5FFE5F6FFF7F6FFF5EAFFE56CB26518890A1084010D
+        7901105E0A557E45D4C9B57E7474EFEEF0000000000000000000000000DCC7C6
+        50332EE1C6B8399D3D2EA83E62AF6BEFFFF2DAF9DE498C55678A68F4FFF0F4FF
+        F26DB36624831A16860A0D75041F630E949C73372623C9BEC000000000000000
+        0000000000CBAFAE6E5349DCD0B835A7432FB047368645BCE8C45591613EA453
+        478C4F67906AF2FFF2E2FFDE6DB3662184180C7A02146504738A5433211AAB9D
+        9E000000000000000000000000AD8E8B967F70BDCDA436B04B2CB94C3FB35A20
+        813743AC5B34B35036AA4B3D934B65916AF4FFF2ECFFE76EB46712800A177107
+        51773545372B928081000000000000000000000000765350BEB29A93C78B35C3
+        5A2ACA5A2FCB6032CB6432CA612FC85B2CC04E2DB64A33AA4865916AF3FFF2F4
+        FFF24F9B4A2071142E6117675A4A745F5E0000000000000000000000006A4744
+        C8C1A87FC27D32C85E2BCF632FD36832D56C31D36A30CE6339C05937B84F2AB4
+        453F8B4B69976DEFFFF06FBD6A2478192C6516796D5B6E595800000000000000
+        0000000000684948CDC6B271AE6E42C76A38D07036D97738DF7E39DA7838D16E
+        7AB67A7AB7753DB4511FAB3524A1333397372289162780123665168B79686F57
+        57000000000000000000000000654949E1D1C490A88062B77356CB7C3FD87B33
+        DE7B3CD87948C9749CA4859FAF864AAE561FAE341DA62C1E9D2432841B487923
+        626A2E94796B745B59000000000000000000000000503C3BB09E97C3C2AD9ABF
+        976BAD795AC17D41D67C43D17855C274DCCCBB948D744FA65627AA372AA33131
+        962A759F52AAB77FC7B995654942A28E8D000000000000000000000000000000
+        000000000000917B7D624548D6B8B76391666DB17877B079F9E9DDB6AF9C689C
+        60558F487C9863CEBCA55C3634BB9D9C00000000000000000000000000000000
+        0000000000000000000000000000000000F1E3E55F4B4AD7D0C1928F7A827D64
+        FFF0EBD4C5BC858364B9B194C1B1A058433B0000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000069
+        4D4DDDBEBBC3A39DFFFDFCEDDAD7866A5FAE8B87563837CCBAB9000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000098898750413F73646297838200000000000000
+        0000000000000000000000000000000000000000000000000000}
+    end
     object btnSair: TBitBtn
-      Left = 312
-      Top = 216
+      Left = 480
+      Top = 256
       Width = 121
       Height = 33
       Cursor = crHandPoint
@@ -403,7 +604,7 @@ object frmRegistro: TfrmRegistro
       Caption = 'Sair'
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 10
+      TabOrder = 17
       OnClick = btnSairClick
       Glyph.Data = {
         06080000424D060800000000000036000000280000001A000000190000000100
@@ -472,81 +673,9 @@ object frmRegistro: TfrmRegistro
         BFA9BCC700000000000000000000000000000000000000000000000000000000
         00000000000000000000}
     end
-    object edtUser: TLabeledEdit
-      Left = 16
-      Top = 48
-      Width = 121
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 89
-      EditLabel.Height = 16
-      EditLabel.Caption = 'Nome Usu'#225'rio'
-      TabOrder = 0
-    end
-    object edtEnd: TLabeledEdit
-      Left = 16
-      Top = 104
-      Width = 281
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 60
-      EditLabel.Height = 16
-      EditLabel.Caption = 'Endere'#231'o'
-      TabOrder = 3
-    end
-    object edtBairro: TLabeledEdit
-      Left = 304
-      Top = 104
-      Width = 193
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 39
-      EditLabel.Height = 16
-      EditLabel.Caption = 'Bairro'
-      TabOrder = 4
-    end
-    object edtCid: TLabeledEdit
-      Left = 16
-      Top = 160
-      Width = 257
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 45
-      EditLabel.Height = 16
-      EditLabel.Caption = 'Cidade'
-      TabOrder = 5
-    end
-    object edtUf: TLabeledEdit
-      Left = 288
-      Top = 160
-      Width = 49
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 17
-      EditLabel.Height = 16
-      EditLabel.Caption = 'UF'
-      TabOrder = 6
-    end
-    object mkeCpf: TMaskEdit
-      Left = 408
-      Top = 48
-      Width = 89
-      Height = 24
-      CharCase = ecUpperCase
-      EditMask = '000000000-00;1;_'
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Arial'
-      Font.Style = [fsBold]
-      MaxLength = 12
-      ParentFont = False
-      TabOrder = 2
-      Text = '         -  '
-    end
     object mkeCep: TMaskEdit
-      Left = 352
-      Top = 161
+      Left = 320
+      Top = 145
       Width = 73
       Height = 24
       CharCase = ecUpperCase
@@ -561,21 +690,38 @@ object frmRegistro: TfrmRegistro
       TabOrder = 7
       Text = '     -   '
     end
-    object edtSobrenome: TLabeledEdit
-      Left = 144
-      Top = 48
-      Width = 257
-      Height = 24
-      CharCase = ecUpperCase
-      EditLabel.Width = 74
+    object edtLicenc: TLabeledEdit
+      Left = 384
+      Top = 192
+      Width = 97
+      Height = 23
+      EditLabel.Width = 50
       EditLabel.Height = 16
-      EditLabel.Caption = 'Sobrenome'
-      TabOrder = 1
+      EditLabel.Caption = 'Licen'#231'a'
+      Enabled = False
+      Font.Charset = SYMBOL_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Wingdings'
+      Font.Style = [fsBold]
+      ParentFont = False
+      PasswordChar = 'l'
+      TabOrder = 18
+    end
+    object edtSerialNumber: TLabeledEdit
+      Left = 408
+      Top = 144
+      Width = 73
+      Height = 24
+      EditLabel.Width = 72
+      EditLabel.Height = 16
+      EditLabel.Caption = 'N'#186' de S'#233'rie'
+      Enabled = False
+      TabOrder = 19
     end
   end
   object OpenPictureDialog1: TOpenPictureDialog
-    Title = 'MyCar - Abrir'
-    Left = 568
-    Top = 56
+    Left = 632
+    Top = 256
   end
 end
