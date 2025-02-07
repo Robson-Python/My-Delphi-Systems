@@ -1,0 +1,72 @@
+inherited frmEmpresas_Surface: TfrmEmpresas_Surface
+  ClientHeight = 1920
+  ClientWidth = 1080
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 1080.000000000000000000
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Button1: TButton
+      Position.X = 1048.000000000000000000
+      Size.Height = 48.000000000000000000
+    end
+  end
+  inherited ScrollBox1: TScrollBox
+    Size.Width = 1080.000000000000000000
+    Size.Height = 1872.000000000000000000
+    Viewport.Width = 1080.000000000000000000
+    Viewport.Height = 1872.000000000000000000
+    inherited lblEndereco: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited lblEmail: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited lblSite: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited lblFace: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited lblTwitter: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited lblSkype: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+    end
+    inherited Label2: TLabel
+      Size.Width = 1080.000000000000000000
+    end
+    inherited lblNome: TLabel
+      Size.Width = 1080.000000000000000000
+      Size.Height = 16.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Image8: TImage
+      MultiResBitmap.Height = 511
+      MultiResBitmap.Width = 766
+      Size.Width = 1080.000000000000000000
+    end
+    inherited Panel1: TPanel
+      Size.Width = 1080.000000000000000000
+      inherited btnFone: TSpeedButton
+        Anchors = [akLeft, akTop, akRight]
+      end
+    end
+    inherited Memo1: TMemo
+      Size.Width = 1080.000000000000000000
+      Viewport.Width = 1076.000000000000000000
+      Viewport.Height = 101.000000000000000000
+    end
+    inherited lblFone: TLabel
+      Size.Width = 1080.000000000000000000
+    end
+  end
+end

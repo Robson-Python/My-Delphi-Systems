@@ -1,0 +1,21 @@
+inherited frmEmpresas_SmXhdpiPh: TfrmEmpresas_SmXhdpiPh
+  ClientHeight = 375
+  ClientWidth = 250
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 250.000000000000000000
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited ScrollBox1: TScrollBox
+    Size.Width = 250.000000000000000000
+    Size.Height = 327.000000000000000000
+    Viewport.Width = 245.000000000000000000
+    Viewport.Height = 322.000000000000000000
+    inherited Memo1: TMemo
+      Viewport.Width = 401.000000000000000000
+      Viewport.Height = 137.000000000000000000
+    end
+  end
+end

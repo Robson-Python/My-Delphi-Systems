@@ -1,0 +1,95 @@
+inherited frmEmpresas_iPhone47in: TfrmEmpresas_iPhone47in
+  ClientHeight = 647
+  ClientWidth = 375
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 375.000000000000000000
+    Size.Height = 44.000000000000000000
+    inherited btnPrior: TButton
+      Size.Width = 44.000000000000000000
+      Size.Height = 44.000000000000000000
+    end
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Button1: TButton
+      Position.X = 353.000000000000000000
+      Position.Y = 8.000000000000000000
+      Size.Width = 22.000000000000000000
+      Size.Height = 27.000000000000000000
+    end
+  end
+  inherited ScrollBox1: TScrollBox
+    Size.Width = 375.000000000000000000
+    Size.Height = 603.000000000000000000
+    Viewport.Width = 370.000000000000000000
+    Viewport.Height = 603.000000000000000000
+    inherited lblEndereco: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited lblEmail: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited lblSite: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited lblFace: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited lblTwitter: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited lblSkype: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+    end
+    inherited Label2: TLabel
+      Size.Width = 370.000000000000000000
+    end
+    inherited lblNome: TLabel
+      Size.Width = 370.000000000000000000
+      Size.Height = 23.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Image8: TImage
+      MultiResBitmap.Height = 511
+      MultiResBitmap.Width = 766
+      Size.Width = 370.000000000000000000
+    end
+    inherited Panel1: TPanel
+      Size.Width = 370.000000000000000000
+      inherited btnFone: TSpeedButton
+        Anchors = [akLeft, akTop, akRight]
+        Size.Height = 44.000000000000000000
+      end
+      inherited btnEmail: TSpeedButton
+        Size.Height = 44.000000000000000000
+      end
+      inherited btnSite: TSpeedButton
+        Size.Height = 44.000000000000000000
+      end
+      inherited btnFace: TSpeedButton
+        Size.Height = 44.000000000000000000
+      end
+      inherited btnTwitter: TSpeedButton
+        Size.Height = 44.000000000000000000
+      end
+      inherited btnSkype: TSpeedButton
+        Size.Height = 44.000000000000000000
+      end
+    end
+    inherited Memo1: TMemo
+      Size.Width = 370.000000000000000000
+      Viewport.Width = 362.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+    inherited lblFone: TLabel
+      Size.Width = 370.000000000000000000
+    end
+  end
+end

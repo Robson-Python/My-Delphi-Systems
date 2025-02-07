@@ -1,0 +1,161 @@
+object frmClassificados: TfrmClassificados
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 3
+  object ToolBar1: TToolBar
+    Size.Width = 640.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    TintColor = claBlack
+    object btnPrior: TButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'arrowlefttoolbutton'
+      TabOrder = 0
+      OnClick = btnPriorClick
+    end
+    object Label1: TLabel
+      Align = Center
+      StyledSettings = []
+      Size.Width = 165.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'toollabel'
+      TextSettings.Font.Family = 'Verdana'
+      TextSettings.Font.Size = 28.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = xFF035E7B
+      Text = 'GloboGuia'
+    end
+  end
+  object ListView3: TListView
+    ItemAppearanceClassName = 'TListItemAppearance'
+    ItemEditAppearanceClassName = 'TListItemShowCheckAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    AlternatingColors = True
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 432.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    CanSwipeDelete = False
+    OnItemClick = ListView3ItemClick
+    DeleteButtonText = ''
+    SearchVisible = True
+    object Edit1: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Position.X = 64.000000000000000000
+      Position.Y = 336.000000000000000000
+      Size.Width = 169.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+    object Edit2: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Position.X = 64.000000000000000000
+      Position.Y = 384.000000000000000000
+      Size.Width = 169.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+    object edtBrowse: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 2
+      Position.X = 312.000000000000000000
+      Position.Y = 96.000000000000000000
+      Size.Width = 257.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+  end
+  object FDConnection3: TFDConnection
+    Params.Strings = (
+      
+        'Database=D:\Robson\Documents\Embarcadero\Studio\Projects\App Rob' +
+        'son\DataBase\GloboGuia.db3'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    LoginPrompt = False
+    BeforeConnect = FDConnection3BeforeConnect
+    Left = 416
+    Top = 240
+  end
+  object BindingsList3: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 416
+    Top = 296
+    object LinkFillControlToFieldC_NOME: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB3
+      FieldName = 'C_NOME'
+      Control = ListView3
+      Track = True
+      FillDataSource = BindSourceDB3
+      FillDisplayFieldName = 'C_NOME'
+      AutoFill = True
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+    object LinkControlToField1: TLinkControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB3
+      FieldName = 'C_NOME'
+      Control = Edit1
+      Track = False
+    end
+  end
+  object BindSourceDB3: TBindSourceDB
+    DataSet = FDQuery3
+    ScopeMappings = <>
+    Left = 288
+    Top = 296
+  end
+  object FDQuery3: TFDQuery
+    Connection = FDConnection3
+    Left = 288
+    Top = 240
+  end
+  object FDGUIxWaitCursor3: TFDGUIxWaitCursor
+    Provider = 'FMX'
+    Left = 288
+    Top = 352
+  end
+  object FDPhysSQLiteDriverLink3: TFDPhysSQLiteDriverLink
+    Left = 416
+    Top = 352
+  end
+  object IdHTTP1: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams, hoNoProtocolErrorException]
+    Left = 544
+    Top = 168
+  end
+end

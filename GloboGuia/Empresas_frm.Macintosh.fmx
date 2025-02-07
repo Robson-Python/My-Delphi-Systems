@@ -1,0 +1,50 @@
+inherited frmEmpresas_Macintosh: TfrmEmpresas_Macintosh
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Button1: TButton
+      Size.Height = 48.000000000000000000
+    end
+  end
+  inherited ScrollBox1: TScrollBox
+    Viewport.Width = 640.000000000000000000
+    Viewport.Height = 736.000000000000000000
+    inherited lblEndereco: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblEmail: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblSite: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblFace: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblTwitter: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblSkype: TLabel
+      Size.Height = 18.000000000000000000
+    end
+    inherited lblNome: TLabel
+      Size.Height = 18.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited Image8: TImage
+      MultiResBitmap.Height = 511
+      MultiResBitmap.Width = 766
+    end
+    inherited Panel1: TPanel
+      inherited btnFone: TSpeedButton
+        Anchors = [akLeft, akTop, akRight]
+      end
+    end
+    inherited Memo1: TMemo
+      Viewport.Width = 632.000000000000000000
+      Viewport.Height = 97.000000000000000000
+    end
+  end
+end

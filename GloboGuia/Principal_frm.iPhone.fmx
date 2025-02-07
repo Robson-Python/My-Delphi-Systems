@@ -1,0 +1,25 @@
+inherited Form1_iPhone: TForm1_iPhone
+  ClientHeight = 460
+  ClientWidth = 320
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    Size.Width = 320.000000000000000000
+    Size.Height = 44.000000000000000000
+    inherited btnPrior: TButton
+      Size.Width = 44.000000000000000000
+      Size.Height = 44.000000000000000000
+    end
+    inherited btnNext: TButton
+      Position.X = 276.000000000000000000
+      Size.Width = 44.000000000000000000
+      Size.Height = 44.000000000000000000
+    end
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited ListView1: TListView
+    Size.Width = 320.000000000000000000
+    Size.Height = 416.000000000000000000
+  end
+end

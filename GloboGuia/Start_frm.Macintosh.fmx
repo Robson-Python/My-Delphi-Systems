@@ -1,0 +1,25 @@
+inherited frmStart_Macintosh: TfrmStart_Macintosh
+  DesignerMasterStyle = 3
+  inherited ToolBar1: TToolBar
+    inherited Label1: TLabel
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+  inherited Panel1: TPanel
+    inherited btnClassificados: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited btnAssinantes: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited btnQuemSomos: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited btnGlobo: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+    inherited btnRepresentar: TButton
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+    end
+  end
+end

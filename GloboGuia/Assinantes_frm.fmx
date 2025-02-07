@@ -1,0 +1,246 @@
+object frmAssinantes: TfrmAssinantes
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 1018
+  ClientWidth = 640
+  Fill.Kind = Solid
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop, iPhone, iPad]
+  OnVirtualKeyboardShown = FormVirtualKeyboardShown
+  OnVirtualKeyboardHidden = FormVirtualKeyboardHidden
+  DesignerMasterStyle = 3
+  object ToolBar1: TToolBar
+    Size.Width = 640.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    TintColor = claBlack
+    object btnPrior: TButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'drawertoolbutton'
+      TabOrder = 0
+      OnClick = btnPriorClick
+    end
+    object Label1: TLabel
+      Align = Center
+      StyledSettings = []
+      Size.Width = 165.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'toollabel'
+      TextSettings.Font.Family = 'Verdana'
+      TextSettings.Font.Size = 28.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = xFF035E7B
+      Text = 'GloboGuia'
+    end
+  end
+  object ScrollBox1: TScrollBox
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 970.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    Viewport.Width = 640.000000000000000000
+    Viewport.Height = 970.000000000000000000
+    object btnEnviar: TButton
+      Align = Horizontal
+      Position.Y = 920.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 44.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 20
+      Text = 'Enviar'
+      TintColor = xFF32A1AA
+      OnClick = btnEnviarClick
+    end
+    object edtCidade: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 9
+      Position.Y = 400.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtEmail: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 13
+      KeyboardType = EmailAddress
+      Position.Y = 552.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtEndereco: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 7
+      Position.Y = 320.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtFace: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 17
+      KeyboardType = URL
+      Position.Y = 704.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtFone: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 11
+      KeyboardType = NumberPad
+      Position.Y = 480.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtNome: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 3
+      Position.Y = 160.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtRamo: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 5
+      Position.Y = 240.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object edtSite: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      Align = Horizontal
+      TabOrder = 15
+      KeyboardType = URL
+      Position.Y = 624.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+    end
+    object Label3: TLabel
+      Align = Horizontal
+      StyledSettings = [Family, Style, FontColor]
+      Position.Y = 32.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 97.000000000000000000
+      Size.PlatformDefault = False
+      TextSettings.Font.Size = 14.000000000000000000
+      Text = 
+        'Quer ver seu an'#250'ncio aqui? Contate-nos e assine j'#225'! Basta preenc' +
+        'her os campos abaixo. O cadastro '#233' GR'#193'TIS e voc'#234' ainda concorre ' +
+        ' a sorteios de brindes via n'#250'mero da loteria federal para cada 1' +
+        '00 ades'#245'es de usu'#225'rios.'
+    end
+    object lblCidade: TLabel
+      Align = Horizontal
+      Position.Y = 376.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Cidade - UF'
+    end
+    object lblDescricao: TLabel
+      Align = Horizontal
+      Position.Y = 752.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Breve descri'#231#227'o da sua Empresa'
+    end
+    object lblEmail: TLabel
+      Align = Horizontal
+      Position.Y = 528.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'E-mail'
+    end
+    object lblEndereco: TLabel
+      Align = Horizontal
+      Position.Y = 296.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Endere'#231'o'
+    end
+    object lblFace: TLabel
+      Align = Horizontal
+      Position.Y = 680.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Facebook'
+    end
+    object lblFone: TLabel
+      Align = Horizontal
+      Position.Y = 456.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Telefones e Celulares'
+    end
+    object lblNome: TLabel
+      Align = Horizontal
+      Position.Y = 136.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Nome'
+    end
+    object lblRamo: TLabel
+      Align = Horizontal
+      Position.Y = 216.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Ramo de Atividade'
+    end
+    object lblSite: TLabel
+      Align = Horizontal
+      Position.Y = 600.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Website'
+    end
+    object mmoDescricao: TMemo
+      Touch.InteractiveGestures = [Pan, LongTap, DoubleTap]
+      DataDetectorTypes = []
+      TextSettings.WordWrap = True
+      Align = Horizontal
+      Position.Y = 776.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 113.000000000000000000
+      Size.PlatformDefault = False
+      TabOrder = 19
+      Viewport.Width = 632.000000000000000000
+      Viewport.Height = 105.000000000000000000
+    end
+    object Label2: TLabel
+      Align = Horizontal
+      Position.Y = 13.000000000000000000
+      Size.Width = 640.000000000000000000
+      Size.Height = 23.000000000000000000
+      Size.PlatformDefault = False
+      Text = 'Assinantes'
+    end
+  end
+end

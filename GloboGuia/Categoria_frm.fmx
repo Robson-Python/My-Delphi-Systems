@@ -1,0 +1,141 @@
+object frmCategoria: TfrmCategoria
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 480
+  ClientWidth = 640
+  FormFactor.Width = 320
+  FormFactor.Height = 480
+  FormFactor.Devices = [Desktop]
+  DesignerMasterStyle = 3
+  object ToolBar1: TToolBar
+    Size.Width = 640.000000000000000000
+    Size.Height = 48.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 0
+    TintColor = claBlack
+    object btnPrior: TButton
+      Align = Left
+      Size.Width = 48.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'arrowlefttoolbutton'
+      TabOrder = 0
+      OnClick = btnPriorClick
+    end
+    object Label1: TLabel
+      Align = Center
+      StyledSettings = []
+      Size.Width = 165.000000000000000000
+      Size.Height = 48.000000000000000000
+      Size.PlatformDefault = False
+      StyleLookup = 'toollabel'
+      TextSettings.Font.Family = 'Verdana'
+      TextSettings.Font.Size = 28.000000000000000000
+      TextSettings.Font.StyleExt = {00070000000000000004000000}
+      TextSettings.FontColor = xFF035E7B
+      Text = 'GloboGuia'
+    end
+  end
+  object ListView1: TListView
+    ItemAppearanceClassName = 'TListItemAppearance'
+    ItemEditAppearanceClassName = 'TListItemDeleteAppearance'
+    HeaderAppearanceClassName = 'TListHeaderObjects'
+    FooterAppearanceClassName = 'TListHeaderObjects'
+    AlternatingColors = True
+    ItemIndex = 0
+    Align = Client
+    Size.Width = 640.000000000000000000
+    Size.Height = 432.000000000000000000
+    Size.PlatformDefault = False
+    TabOrder = 1
+    CanSwipeDelete = False
+    OnItemClick = ListView1ItemClick
+    DeleteButtonText = ''
+    SearchVisible = True
+    object Edit1: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 0
+      Text = 'ACABAMENTOS'
+      Position.X = 368.000000000000000000
+      Position.Y = 48.000000000000000000
+      Size.Width = 193.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+    object Edit2: TEdit
+      Touch.InteractiveGestures = [LongTap, DoubleTap]
+      TabOrder = 1
+      Position.X = 368.000000000000000000
+      Position.Y = 104.000000000000000000
+      Size.Width = 193.000000000000000000
+      Size.Height = 32.000000000000000000
+      Size.PlatformDefault = False
+      Visible = False
+    end
+  end
+  object FDConnection1: TFDConnection
+    Params.Strings = (
+      
+        'Database=D:\Robson\Documents\Embarcadero\Studio\Projects\App Rob' +
+        'son\DataBase\GloboGuia.db3'
+      'LockingMode=Normal'
+      'DriverID=SQLite')
+    Connected = True
+    LoginPrompt = False
+    BeforeConnect = FDConnection1BeforeConnect
+    Left = 416
+    Top = 296
+  end
+  object BindingsList1: TBindingsList
+    Methods = <>
+    OutputConverters = <>
+    Left = 416
+    Top = 232
+    object LinkFillControlToFieldCT_NOME: TLinkFillControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'CT_NOME'
+      Control = ListView1
+      Track = True
+      FillDataSource = BindSourceDB2
+      FillDisplayFieldName = 'CT_NOME'
+      AutoFill = True
+      FillExpressions = <>
+      FillHeaderExpressions = <>
+      FillBreakGroups = <>
+    end
+    object LinkControlToField1: TLinkControlToField
+      Category = 'Quick Bindings'
+      DataSource = BindSourceDB2
+      FieldName = 'CT_NOME'
+      Control = Edit1
+      Track = False
+    end
+  end
+  object BindSourceDB2: TBindSourceDB
+    DataSet = FDQuery2
+    ScopeMappings = <>
+    Left = 288
+    Top = 232
+  end
+  object FDQuery2: TFDQuery
+    Active = True
+    Connection = FDConnection1
+    SQL.Strings = (
+      'Select ct_nome from categorias'
+      'order by ct_nome')
+    Left = 288
+    Top = 288
+  end
+  object FDGUIxWaitCursor1: TFDGUIxWaitCursor
+    Provider = 'FMX'
+    Left = 288
+    Top = 352
+  end
+  object FDPhysSQLiteDriverLink1: TFDPhysSQLiteDriverLink
+    Left = 416
+    Top = 352
+  end
+end
