@@ -32,6 +32,38 @@ implementation
 
 {$R *.dfm}
 
+function fConvertAlcool() : String;
+var valor : String;
+    tamanho, i : Integer;
+begin
+    valor := frmFlex.edtAlccol.Text;
+    tamanho := Length(valor);
+    for i := 0 to tamanho do begin
+    If valor[i] = '.' then
+       valor[i] := ','
+    else
+       if valor[i] = ',' then
+          valor[i] := '.';
+    end;
+    frmFlex.edtAlccol.Text := valor;
+end;
+
+function fConvertGasolina() : String;
+var valor : String;
+    tamanho, i : Integer;
+begin
+    valor := frmFlex.edtGasolina.Text;
+    tamanho := Length(valor);
+    for i := 0 to tamanho do begin
+    If valor[i] = '.' then
+       valor[i] := ','
+    else
+       if valor[i] = ',' then
+          valor[i] := '.';
+    end;
+    frmFlex.edtGasolina.Text := valor;
+end;
+
 procedure TfrmFlex.btnCalcularClick(Sender: TObject);
 var vAlcool, vGasolina, vValor : Double;
 begin
