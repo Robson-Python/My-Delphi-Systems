@@ -1,0 +1,136 @@
+unit Setores_frm;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, Grids, StdCtrls, Buttons, ExtCtrls, DBGrids, DBCtrls, ComCtrls;
+
+type
+  TfrmSetores = class(TForm)
+    GroupBox1: TGroupBox;
+    DateTimePicker1: TDateTimePicker;
+    DateTimePicker2: TDateTimePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    edtIdEmp: TLabeledEdit;
+    edtEmpresa: TLabeledEdit;
+    edtIdEsp: TLabeledEdit;
+    edtEspecie: TLabeledEdit;
+    btnConfirmar: TBitBtn;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    procedure btnSairClick(Sender: TObject);
+    procedure Entrada;
+    procedure btnConfirmarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmSetores: TfrmSetores;
+
+implementation
+
+uses Carro_Comando_dm, ADODB, DB, Principal_frm, Entrada_frm;
+
+{$R *.dfm}
+
+function DataExtenso(Data:TDateTime): String;
+{Retorna uma data por extenso}
+var
+  NoDia : Integer;
+//  DiaDaSemana : array [1..7] of String;
+  Meses : array [1..12] of String;
+  Dia, Mes, Ano : Word;
+begin
+//{ Dias da Semana }
+//  DiaDasemana [1]:= 'Domingo';
+//  DiaDasemana [2]:= 'Segunda-feira';
+//  DiaDasemana [3]:= 'Terçafeira';
+//  DiaDasemana [4]:= 'Quarta-feira';
+//  DiaDasemana [5]:= 'Quinta-feira';
+//  DiaDasemana [6]:= 'Sexta-feira';
+//  DiaDasemana [7]:= 'Sábado';
+{ Meses do ano }
+  Meses [1] := 'Janeiro';
+  Meses [2] := 'Fevereiro';
+  Meses [3] := 'Março';
+  Meses [4] := 'Abril';
+  Meses [5] := 'Maio';
+  Meses [6] := 'Junho';
+  Meses [7] := 'Julho';
+  Meses [8] := 'Agosto';
+  Meses [9] := 'Setembro';
+  Meses [10]:= 'Outubro';
+  Meses [11]:= 'Novembro';
+  Meses [12]:= 'Dezembro';
+  DecodeDate (Data, Ano, Mes, Dia);
+  NoDia := DayOfWeek (Data);
+  Result := Meses[Mes]+ '  ' + IntToStr(Ano);
+end;
+
+function fBuscaCodSetor() : Integer;
+begin
+    With dmVendas.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('Select Count(*) as ultimo from setores ');
+       Active := True;
+       fBuscaCodSetor := FieldByName('ultimo').AsInteger;
+    end;
+end;
+
+procedure TfrmSetores.btnSairClick(Sender: TObject);
+begin
+    Close;
+end;
+
+procedure TfrmSetores.Entrada;
+var vAnterior, vAtual : Double;
+begin
+    With dmVendas.ADOQuery1 do begin
+       Active := False;
+       SQL.Clear;
+       SQL.Add('select ea_periodo from estoque_acumulativo where especie_id = '+QuotedStr(edtIdEsp.Text)+' and empresa_id = '+QuotedStr(edtIdEmp.Text)+'');
+       Active := True;
+       Label4.Caption := FieldByName('ea_periodo').AsString;
+    end;
+    If Label4.Caption = Label5.Caption then begin
+       With dmVendas.ADOQuery1 do begin
+          Active := False;
+          SQL.Clear;
+          SQL.Add('sum(((diametro1+diametro2)/2)*((diametro1+diametro2)/2)*comprimento*0.7854) ''anterior'' from plaqueta where especie_id = '+QuotedStr(edtIdEsp.Text)+' and empresa_id = '+QuotedStr(edtIdEmp.Text)+' and dataentrada between '+QuotedStr(DateToStr(DateTimePicker1.Date))+' and '+QuotedStr(DateToStr(DateTimePicker2.Date))+'');
+          Active := True;
+          vAnterior := FieldByName('anterior').AsFloat;
+          vAtual := StrToFloat(frmEntrada.edtVolume.Text);
+          Active := False;
+          SQL.Clear;
+          SQL.Add('update estoque_acumulativo set ea_entrada = '+QuotedStr(FloatToStr(vAnterior+vAtual))+'');
+          ExecSQL;                 
+       end;
+    end;
+end;
+
+procedure TfrmSetores.btnConfirmarClick(Sender: TObject);
+begin
+    Label5.Caption := DataExtenso(Now);
+end;
+
+procedure TfrmSetores.FormShow(Sender: TObject);
+begin
+    DateTimePicker1.Date := Date-10;
+    DateTimePicker2.Date := Date+10;
+    edtIdEmp.Text := frmEntrada.edtIdEmp2.Text;
+    edtEmpresa.Text := frmEntrada.cbxEmpresa.Text;
+    edtIdEsp.Text := frmEntrada.edtIdEspecie.Text;
+    edtEspecie.Text := frmEntrada.cbxEspecie.Text;
+end;
+
+end.

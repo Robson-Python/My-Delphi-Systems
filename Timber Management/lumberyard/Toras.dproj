@@ -1,0 +1,248 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{E36D45E6-6BCC-4958-943C-2BBA78A371E8}</ProjectGuid>
+        <MainSource>Toras.dpr</MainSource>
+        <Base>True</Base>
+        <Config Condition="'$(Config)'==''">Debug</Config>
+        <TargetedPlatforms>1025</TargetedPlatforms>
+        <AppType>Application</AppType>
+        <FrameworkType>VCL</FrameworkType>
+        <ProjectVersion>18.1</ProjectVersion>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Release' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <SanitizedProjectName>Toras</SanitizedProjectName>
+        <VerInfo_Release>1</VerInfo_Release>
+        <DCC_N>true</DCC_N>
+        <DCC_E>false</DCC_E>
+        <DCC_F>false</DCC_F>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;Winapi;Data.Win;System.Win;$(DCC_Namespace)</DCC_Namespace>
+        <DCC_ImageBase>00400000</DCC_ImageBase>
+        <VerInfo_AutoGenVersion>true</VerInfo_AutoGenVersion>
+        <VerInfo_Locale>1046</VerInfo_Locale>
+        <VerInfo_Build>1</VerInfo_Build>
+        <DCC_K>false</DCC_K>
+        <DCC_S>false</DCC_S>
+        <DCC_SymbolReferenceInfo>1</DCC_SymbolReferenceInfo>
+        <DCC_DebugInformation>1</DCC_DebugInformation>
+        <DCC_UsePackage>vcl;rtl;vclx;indy;inet;xmlrtl;vclie;inetdbbde;inetdbxpress;dbrtl;dsnap;dsnapcon;vcldb;soaprtl;VclSmp;dbexpress;dbxcds;inetdb;bdertl;vcldbx;webdsnap;websnap;adortl;ibxpress;teeui;teedb;tee;dss;visualclx;visualdbclx;vclactnband;vclshlctrls;IntrawebDB_50_70;Intraweb_50_70;Rave50CLX;Rave50VCL;dclOfficeXP;qrpt;$(DCC_UsePackage)</DCC_UsePackage>
+        <VerInfo_Keys>CompanyName=Robson Silva Softwares;FileDescription=;FileVersion=1.0.1.1;InternalName=Controle de Toras;LegalCopyright=Copyryght©2010 Robson Silva Softwares;LegalTrademarks=;OriginalFilename=;ProductName=Controle de Toras;ProductVersion=1.0.0.0;Comments=Robson Silva Softwares</VerInfo_Keys>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Icon_MainIcon>Toras_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <Icon_MainIcon>Toras_Icon.ico</Icon_MainIcon>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <DCC_DebugInformation>0</DCC_DebugInformation>
+        <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
+        <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
+        <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
+        <AppEnableHighDPI>true</AppEnableHighDPI>
+    </PropertyGroup>
+    <ItemGroup>
+        <DelphiCompile Include="$(MainSource)">
+            <MainSource>MainSource</MainSource>
+        </DelphiCompile>
+        <DCCReference Include="Principal_frm.pas">
+            <Form>frmPrincipal</Form>
+        </DCCReference>
+        <DCCReference Include="Carro_Comando_dm.pas">
+            <Form>dmVendas</Form>
+            <DesignClass>TDataModule</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Usuario_frm.pas">
+            <Form>frmUsuario</Form>
+        </DCCReference>
+        <DCCReference Include="Senha_frm.pas">
+            <Form>frmSenha</Form>
+        </DCCReference>
+        <DCCReference Include="Sobre_frm.pas">
+            <Form>frmSobre</Form>
+        </DCCReference>
+        <DCCReference Include="Splash_frm.pas">
+            <Form>frmSplash</Form>
+        </DCCReference>
+        <DCCReference Include="Registro_frm.pas">
+            <Form>frmRegistro</Form>
+        </DCCReference>
+        <DCCReference Include="Ativar_frm.pas">
+            <Form>frmAtivar</Form>
+        </DCCReference>
+        <DCCReference Include="CadFornec_frm.pas">
+            <Form>frmCadTerceiro</Form>
+        </DCCReference>
+        <DCCReference Include="Entrada_frm.pas">
+            <Form>frmEntrada</Form>
+        </DCCReference>
+        <DCCReference Include="Backup_frm.pas">
+            <Form>frmBackup</Form>
+        </DCCReference>
+        <DCCReference Include="CadEmpresa_frm.pas">
+            <Form>frmCadEmpresa</Form>
+        </DCCReference>
+        <DCCReference Include="CadSubEsp_frm.pas">
+            <Form>frmCadEspecie</Form>
+        </DCCReference>
+        <DCCReference Include="MateriaPrima_frm.pas">
+            <Form>frmClassificacao</Form>
+        </DCCReference>
+        <DCCReference Include="Deposito_frm.pas">
+            <Form>frmDeposito</Form>
+        </DCCReference>
+        <DCCReference Include="CadFreteiro_frm.pas">
+            <Form>frmCadFreteiro</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeCompra_frm.pas">
+            <Form>frmReltCompra</Form>
+        </DCCReference>
+        <DCCReference Include="Saida_frm.pas">
+            <Form>frmSaida</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeSaidaTora_frm.pas">
+            <Form>frmImprimeSaidaTora</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeEntrada_frm.pas">
+            <Form>frmImprimeEntrada</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeResFornFret_frm.pas">
+            <Form>frmImpResFornFret</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimFret_frm.pas">
+            <Form>frmImprFret</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeEstoque_frm.pas">
+            <Form>frmImprimeEstoq</Form>
+        </DCCReference>
+        <DCCReference Include="ImprEstoqUtil_frm.pas">
+            <Form>frmImprEstqUtil</Form>
+        </DCCReference>
+        <DCCReference Include="PlanilhaForn_frm.pas">
+            <Form>frmPlanilhaForn</Form>
+        </DCCReference>
+        <DCCReference Include="PlanilhaFrete_frm.pas">
+            <Form>frmPlanilhaFrete</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeSaida_frm.pas">
+            <Form>frmImprimeSaida</Form>
+        </DCCReference>
+        <DCCReference Include="ConsTora_frm.pas">
+            <Form>frmConsTora</Form>
+        </DCCReference>
+        <DCCReference Include="ImpEmpresa_frm.pas">
+            <Form>frmImpEmpresa</Form>
+        </DCCReference>
+        <DCCReference Include="ImpTerceiro_frm.pas">
+            <Form>frmImpTerceiro</Form>
+        </DCCReference>
+        <DCCReference Include="ImpDeposito_frm.pas">
+            <Form>frmImpDeposito</Form>
+        </DCCReference>
+        <DCCReference Include="ImpClassificacao.pas">
+            <Form>frmImpClassificacao</Form>
+        </DCCReference>
+        <DCCReference Include="ImpEspecie_frm.pas">
+            <Form>frmImpEspecie</Form>
+        </DCCReference>
+        <DCCReference Include="EmisRelEntrada_frm.pas">
+            <Form>frmEmisRelEntrada</Form>
+        </DCCReference>
+        <DCCReference Include="ImprimeTerceiro_frm.pas">
+            <Form>frmImprimeTerceiro</Form>
+        </DCCReference>
+        <DCCReference Include="EmissEstoq_frm.pas">
+            <Form>frmEmisEstoq</Form>
+        </DCCReference>
+        <DCCReference Include="EmisRelSaida_frm.pas">
+            <Form>frmEmisRelSaida</Form>
+        </DCCReference>
+        <DCCReference Include="EmissaoRelAcumulativo_frm.pas">
+            <Form>frmEmissaoRelAcumulativo</Form>
+        </DCCReference>
+        <BuildConfiguration Include="Debug">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Release">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Delphi.Personality>
+                <Source>
+                    <Source Name="MainSource">Toras.dpr</Source>
+                </Source>
+            </Delphi.Personality>
+            <Platforms>
+                <Platform value="iOSDevice64">True</Platform>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>
