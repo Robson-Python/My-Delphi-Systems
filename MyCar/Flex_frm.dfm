@@ -2,7 +2,7 @@ object frmFlex: TfrmFlex
   Left = 192
   Top = 113
   BorderStyle = bsSingle
-  Caption = 'Carro Comando - C'#225'lculo de Compensa'#231#227'o do Motor Flex'
+  Caption = 'MyCar - C'#225'lculo de Custo Benef'#237'cio do Motor Flex'
   ClientHeight = 152
   ClientWidth = 552
   Color = clBtnFace
