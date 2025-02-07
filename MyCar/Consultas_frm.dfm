@@ -273,6 +273,7 @@ object frmConsultas: TfrmConsultas
     Top = 152
     Width = 753
     Height = 297
+    DataSource = dmCarroComando.DataSource1
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -298,6 +299,7 @@ object frmConsultas: TfrmConsultas
       Top = 8
       Width = 232
       Height = 25
+      DataSource = dmCarroComando.DataSource1
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Hints.Strings = (
         'Primeiro'

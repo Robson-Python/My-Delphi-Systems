@@ -40,19 +40,19 @@ var
 
 implementation
 
-uses Carro_Comando_dm, Principal_frm;
+uses Carro_Comando_dm, ADODB, Principal_frm;
 
 {$R *.dfm}
 
 procedure TfrmConsultas.btnSairClick(Sender: TObject);
 begin
-    dmCarroComando.zqCarro.SQL.Clear;
+    dmCarroComando.ADOQuery1.SQL.Clear;
     Close;
 end;
 
 procedure TfrmConsultas.FormShow(Sender: TObject);
 begin
-    dmCarroComando.zqCarro.SQL.Clear;
+    dmCarroComando.ADOQuery1.SQL.Clear;
     dtpInic.Date := Date - 15;
     dtpFin.Date := Date + 15;
 end;
@@ -62,7 +62,7 @@ begin
     DateSeparator := '/';
     ShortDateFormat := 'yyyy-mm-dd';
     If cbxConsulta.ItemIndex = 0 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = True then begin
              Active := False;
              SQL.Clear;
@@ -90,7 +90,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 1 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = True then begin
              Active := False;
              SQL.Clear;
@@ -118,7 +118,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 2 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = True then begin
              Active := False;
              SQL.Clear;
@@ -150,7 +150,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 3 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = False then begin
              Active := False;
              SQL.Clear;
@@ -204,7 +204,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 4 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = False then begin
              Active := False;
              SQL.Clear;
@@ -236,7 +236,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 5 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = False then begin
              Active := False;
              SQL.Clear;
@@ -268,7 +268,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 6 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = False then begin
              Active := False;
              SQL.Clear;
@@ -314,7 +314,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 7 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           Active := False;
           SQL.Clear;
           SQL.Add('Select c.modelo, SUM(u.vl_tot) from carros c, motoristas m, categoria t, gerencial g, pecas_servicos p, custos u where c.placa = g.placa and m.cpf = g.cpf and t.cod_categ = g.cod_categ and g.ger_cod = p.ger_cod and p.pec_cod = u.pec_cod group by c.modelo');
@@ -326,7 +326,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 8 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           Active := False;
           SQL.Clear;
           SQL.Add('Select c.modelo, t.nome_categ, SUM(u.vl_tot) FROM carros c, categoria t, gerencial g, pecas_servicos p, custos u where c.placa = g.placa and t.cod_categ = g.cod_categ and g.ger_cod = p.ger_cod and p.pec_cod = u.pec_cod group by c.modelo, t.nome_categ');
@@ -340,7 +340,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 9 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = True then begin
              Active := False;
              SQL.Clear;
@@ -368,7 +368,7 @@ begin
        end;
     end;
     If cbxConsulta.ItemIndex = 10 then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           If CheckBox1.Checked = True then begin
              Active := False;
              SQL.Clear;

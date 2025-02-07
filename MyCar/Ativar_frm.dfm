@@ -2,7 +2,7 @@ object frmAtivar: TfrmAtivar
   Left = 192
   Top = 114
   BorderStyle = bsDialog
-  Caption = 'MyCar - Ativar Licen'#231'a'
+  Caption = 'Carro Comando - Ativar Licen'#231'a'
   ClientHeight = 104
   ClientWidth = 312
   Color = clBtnFace
@@ -13,6 +13,7 @@ object frmAtivar: TfrmAtivar
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
+  OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
@@ -20,7 +21,7 @@ object frmAtivar: TfrmAtivar
     Top = 8
     Width = 297
     Height = 89
-    Caption = 'Digite a CHAVE fornecida pelo Programador'
+    Caption = 'Digite o N'#186' da Licen'#231'a fornecida pelo Programador'
     Font.Charset = ANSI_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -28,15 +29,8 @@ object frmAtivar: TfrmAtivar
     Font.Style = [fsBold]
     ParentFont = False
     TabOrder = 0
-    object Label1: TLabel
-      Left = 216
-      Top = 24
-      Width = 4
-      Height = 14
-      Caption = '-'
-    end
     object edtLicenca: TEdit
-      Left = 40
+      Left = 56
       Top = 24
       Width = 169
       Height = 20
@@ -56,11 +50,10 @@ object frmAtivar: TfrmAtivar
       Width = 89
       Height = 25
       Cursor = crHandPoint
-      Caption = 'Ativar'
       Enabled = False
       ParentShowHint = False
       ShowHint = False
-      TabOrder = 2
+      TabOrder = 1
       OnClick = btnRegistClick
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
@@ -76,44 +69,6 @@ object frmAtivar: TfrmAtivar
         05555555555555777FF5555555555557905555555555555777FF555555555555
         5990555555555555577755555555555555555555555555555555}
       NumGlyphs = 2
-    end
-    object edtDia: TEdit
-      Left = 192
-      Top = 56
-      Width = 41
-      Height = 22
-      TabOrder = 3
-      Visible = False
-    end
-    object edtMes: TEdit
-      Left = 24
-      Top = 56
-      Width = 41
-      Height = 22
-      TabOrder = 4
-      Visible = False
-    end
-    object edtAno: TEdit
-      Left = 240
-      Top = 56
-      Width = 41
-      Height = 22
-      TabOrder = 5
-      Visible = False
-    end
-    object edtDays: TEdit
-      Left = 224
-      Top = 24
-      Width = 33
-      Height = 20
-      Font.Charset = SYMBOL_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -11
-      Font.Name = 'Wingdings'
-      Font.Style = []
-      ParentFont = False
-      PasswordChar = 'l'
-      TabOrder = 1
     end
   end
 end

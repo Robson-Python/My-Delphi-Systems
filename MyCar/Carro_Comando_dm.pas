@@ -3,16 +3,13 @@ unit Carro_Comando_dm;
 interface
 
 uses
-  SysUtils, Classes, DB, ADODB, ZAbstractRODataset, ZAbstractDataset,
-  ZDataset, ZAbstractConnection, ZConnection;
+  SysUtils, Classes, DB, ADODB;
 
 type
   TdmCarroComando = class(TDataModule)
-    zcCarro: TZConnection;
-    zqCarro: TZQuery;
-    dsCarro: TDataSource;
-    zcMyCar: TZConnection;
-    zqMyCar: TZQuery;
+    ADOConnection1: TADOConnection;
+    ADOQuery1: TADOQuery;
+    DataSource1: TDataSource;
   private
     { Private declarations }
   public

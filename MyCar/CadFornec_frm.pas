@@ -10,8 +10,14 @@ type
   TfrmCadFornec = class(TForm)
     Shape1: TShape;
     Panel1: TPanel;
+    btnInserir: TSpeedButton;
+    btnSelecionar: TSpeedButton;
+    btnAtualizar: TSpeedButton;
+    btnDeletar: TSpeedButton;
+    btnLimpar: TSpeedButton;
+    btnSair: TSpeedButton;
     GroupBox1: TGroupBox;
-    edtCod: TLabeledEdit;
+    edtCnpj: TLabeledEdit;
     lblSetor: TLabel;
     cbxSetor: TComboBox;
     edtEnd: TLabeledEdit;
@@ -31,17 +37,7 @@ type
     lblCep: TLabel;
     cbxForn: TComboBox;
     lblForn: TLabel;
-    btnNovo: TSpeedButton;
-    btnInserir: TSpeedButton;
-    btnSelecionar: TSpeedButton;
-    btnAtualizar: TSpeedButton;
-    btnDeletar: TSpeedButton;
-    btnLimpar: TSpeedButton;
-    btnSair: TSpeedButton;
-    Label1: TLabel;
-    mkeCnpj: TMaskEdit;
-    mmoObs: TMemo;
-    lblRest: TLabel;
+    edtMsn: TLabeledEdit;
     procedure btnSairClick(Sender: TObject);
     procedure btnLimparClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -51,17 +47,14 @@ type
     procedure btnAtualizarClick(Sender: TObject);
     procedure btnDeletarClick(Sender: TObject);
     procedure edtVoipDblClick(Sender: TObject);
+    procedure edtMsnDblClick(Sender: TObject);
+    procedure edtSiteDblClick(Sender: TObject);
+    procedure edtMsnMouseMove(Sender: TObject; Shift: TShiftState; X,
+      Y: Integer);
     procedure edtVoipMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
     procedure edtSiteMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
-    procedure btnNovoClick(Sender: TObject);
-    procedure cbxFornKeyDown(Sender: TObject; var Key: Word;
-      Shift: TShiftState);
-    procedure edtSiteDblClick(Sender: TObject);
-    procedure edtMailMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure edtMailDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -73,49 +66,34 @@ var
 
 implementation
 
-uses Carro_Comando_dm;
+uses Carro_Comando_dm, Principal_frm, Browser_frm;
 
 {$R *.dfm}
 
-function fBuscaCodForn() : Integer;
-begin
-    With dmCarroComando.zqCarro do begin
-       Active := False;
-       SQL.Clear;
-       SQL.Add('Select f_cod from fornecedores order by f_cod desc');
-       Active := True;
-       fBuscaCodForn := FieldByName('f_cod').AsInteger;
-    end;
-end;
-
 procedure TfrmCadFornec.btnSairClick(Sender: TObject);
 begin
-    With dmCarroComando.zqCarro do begin
-       SQL.Clear;
-       Active := False;
-    end;
+    dmCarroComando.ADOQuery1.SQL.Clear;
     Close;
 end;
 
 procedure TfrmCadFornec.btnLimparClick(Sender: TObject);
 begin
-    edtCod.Clear; edtEnd.Clear; edtBai.Clear; edtCid.Clear; edtContato.Clear; edtMail.Clear; edtSite.Clear; edtVoip.Clear;
-    cbxSetor.Text := ''; cbxUf.Text := ''; cbxForn.Text := '';
-    mkeFone.Clear; mkeFax.Clear; mkeCep.Clear; mkeCnpj.Clear;
-    mmoObs.Clear;
-    cbxForn.SetFocus;
-    dmCarroComando.zqCarro.SQL.Clear;
+    edtCnpj.Clear; edtEnd.Clear; edtBai.Clear; edtCid.Clear; edtContato.Clear; edtMail.Clear; edtSite.Clear; edtVoip.Clear; edtMsn.Clear;
+    cbxSetor.Text := ''; cbxUf.Text := ''; cbxForn.Clear;
+    mkeFone.Clear; mkeFax.Clear; mkeCep.Clear;
+    FormCreate(Sender);
+    dmCarroComando.ADOQuery1.SQL.Clear;
 end;
 
 procedure TfrmCadFornec.FormCreate(Sender: TObject);
 begin
-    With dmCarroComando.zqCarro do begin
+    With dmCarroComando.ADOQuery1 do begin
        Active := False;
        SQL.Clear;
-       SQL.Add('Select * from fornecedores order by f_nome');
+       SQL.Add('Select * from fornecedores order by fn_nome');
        Active := True;
        while not Eof do begin
-          cbxForn.Items.Add(FieldByName('f_nome').AsString);
+          cbxForn.Items.Add(FieldByName('fn_nome').AsString);
           Next;
        end;
     end;
@@ -123,101 +101,112 @@ end;
 
 procedure TfrmCadFornec.FormShow(Sender: TObject);
 begin
-    cbxForn.SetFocus;
+    edtCnpj.SetFocus;
 end;
 
 procedure TfrmCadFornec.btnInserirClick(Sender: TObject);
 begin
-    If edtCod.Text <> '' then begin
-       With dmCarroComando.zqCarro do begin
-          Active := False;
-          SQL.Clear;
-          SQL.Add('Insert into fornecedores (F_COD, F_NOME, F_CNPJ, F_SETOR, F_END, F_BAIRRO, F_CID, F_UF, F_CEP, F_CONTATO, F_FONE, F_FAX, F_MAIL, F_SKYPE, F_SITE, F_OBS) Values ('+QuotedStr(edtCod.Text)+', '+QuotedStr(cbxForn.Text)+', '+QuotedStr(mkeCnpj.Text)+', '+ QuotedStr(cbxSetor.Text)+', '+ QuotedStr(edtEnd.Text)+', '+ QuotedStr(edtBai.Text)+', '+ QuotedStr(edtCid.Text)+', '+ QuotedStr(cbxUf.Text)+', '+QuotedStr(mkeCep.Text)+', '+ QuotedStr(edtContato.Text)+', '+ QuotedStr(mkeFone.Text)+', '+ QuotedStr(mkeFax.Text)+','+ QuotedStr(edtMail.Text)+', '+ QuotedStr(edtVoip.Text)+', '+ QuotedStr(edtSite.Text)+', '+QuotedStr(mmoObs.Text)+')');
-          ExecSQL;
-          Application.MessageBox('Registro Efetuado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
-          btnLimparClick(Sender);
-          cbxForn.Clear;
-          FormCreate(Self);
-       end;
+    If edtCnpj.Text <> '' then begin
+       If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+          With dmCarroComando.ADOQuery1 do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('Insert into fornecedores (CNPJ, FN_NOME, FN_SETOR, FN_END, FN_BAI, FN_CID, FN_UF, FN_CONTATO, FN_FONE, FN_FAX, FN_MAIL, FN_VOIP, FN_SITE, FN_CEP, FN_MSN) Values ('+QuotedStr(edtCnpj.Text)+','+QuotedStr(cbxForn.Text)+','+ QuotedStr(cbxSetor.Text)+','+ QuotedStr(edtEnd.Text)+','+ QuotedStr(edtBai.Text)+','+ QuotedStr(edtCid.Text)+','+ QuotedStr(cbxUf.Text)+','+ QuotedStr(edtContato.Text)+','+ QuotedStr(mkeFone.Text)+','+ QuotedStr(mkeFax.Text)+','+ QuotedStr(edtMail.Text)+','+ QuotedStr(edtVoip.Text)+','+ QuotedStr(edtSite.Text)+','+ QuotedStr(mkeCep.Text)+', '+QuotedStr(edtMsn.Text)+')');
+             ExecSQL;
+             Application.MessageBox('Registro Efetuado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+             btnLimparClick(Sender);
+          end;
+       end
+       else begin
+          Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
+      end;
     end
     else begin
-       Application.MessageBox('O campo código não pode estar vazio!','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('O campo CNPJ não pode estar vazio!','Carro Comando - Atenção',MB_OK+MB_ICONWARNING);
     end;
 end;
 
 procedure TfrmCadFornec.btnSelecionarClick(Sender: TObject);
 begin
     If cbxForn.Text <> '' then begin
-       With dmCarroComando.zqCarro do begin
+       With dmCarroComando.ADOQuery1 do begin
           Active := False;
           SQL.Clear;
-          SQL.Add('Select * from fornecedores where f_nome = '+ QuotedStr(cbxForn.Text));
+          SQL.Add('Select * from fornecedores where fn_nome = '+ QuotedStr(cbxForn.Text));
           Active := True;
           If RecordCount = 0 then begin
-             Application.MessageBox('Registro não encontrado...','MyCar - Informação',MB_OK+MB_ICONINFORMATION);
+             Application.MessageBox('Registro não encontrado...','Carro Comando - Informação',MB_OK+MB_ICONINFORMATION);
              btnLimparClick(Sender);
              cbxForn.SetFocus;
           end
           else begin
-             edtCod.Text := FieldByName ('f_cod').AsString;
-             cbxForn.Text := FieldByName ('f_nome').AsString;
-             mkeCnpj.Text := FieldByName ('f_cnpj').AsString;
-             cbxSetor.Text := FieldByName ('f_setor').AsString;
-             edtEnd.Text := FieldByName ('f_end').AsString;
-             edtBai.Text := FieldByName ('f_bairro').AsString;
-             edtCid.Text := FieldByName ('f_cid').AsString;
-             cbxUf.Text := FieldByName ('f_uf').AsString;
-             mkeCep.Text := FieldByName ('f_cep').AsString;
-             edtContato.Text := FieldByName ('f_contato').AsString;
-             mkeFone.Text := FieldByName ('f_fone').AsString;
-             mkeFax.Text := FieldByName ('f_fax').AsString;
-             edtMail.Text := FieldByName ('f_mail').AsString;
-             edtVoip.Text := FieldByName ('f_skype').AsString;
-             edtSite.Text := FieldByName ('f_site').AsString;
-             mmoObs.Text := FieldByName ('f_obs').AsString;
+             edtCnpj.Text := FieldByName ('cnpj').AsString;
+             cbxForn.Text := FieldByName ('fn_nome').AsString;
+             cbxSetor.Text := FieldByName ('fn_setor').AsString;
+             edtEnd.Text := FieldByName ('fn_end').AsString;
+             edtBai.Text := FieldByName ('fn_bai').AsString;
+             edtCid.Text := FieldByName ('fn_cid').AsString;
+             cbxUf.Text := FieldByName ('fn_uf').AsString;
+             mkeCep.Text := FieldByName ('fn_cep').AsString;
+             edtContato.Text := FieldByName ('fn_contato').AsString;
+             mkeFone.Text := FieldByName ('fn_fone').AsString;
+             mkeFax.Text := FieldByName ('fn_fax').AsString;
+             edtMail.Text := FieldByName ('fn_mail').AsString;
+             edtVoip.Text := FieldByName ('fn_voip').AsString;
+             edtSite.Text := FieldByName ('fn_site').AsString;
+             edtMsn.Text := FieldByName ('fn_msn').AsString;
           end;
        end;
     end
     else begin
-       Application.MessageBox('Selcione o Fornecedor.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('Selcione o Fornecedor.','Carro Comando - Atenção',MB_OK+MB_ICONWARNING);
     end;
 end;
 
 procedure TfrmCadFornec.btnAtualizarClick(Sender: TObject);
 begin
-    If edtCod.Text <> '' then begin
-       With dmCarroComando.zqCarro do begin
-          Active := False;
-          SQL.Clear;
-          SQL.Add('Update fornecedores set f_cnpj = '+ QuotedStr(mkeCnpj.Text)+', f_nome = '+ QuotedStr(cbxForn.Text)+', f_setor = '+ QuotedStr(cbxSetor.Text)+', f_end = '+ QuotedStr(edtEnd.Text)+', f_bairro = '+ QuotedStr(edtBai.Text)+', f_cid = '+ QuotedStr(edtCid.Text)+', f_uf = '+ QuotedStr(cbxUf.Text)+', f_contato = '+ QuotedStr(edtContato.Text)+', f_fone = '+ QuotedStr(mkeFone.Text)+', f_fax = '+ QuotedStr(mkeFax.Text)+', f_mail = '+ QuotedStr(edtMail.Text)+', f_skype = '+ QuotedStr(edtVoip.Text)+', f_site = '+ QuotedStr(edtSite.Text)+', f_cep = '+ QuotedStr(mkeCep.Text)+', f_obs = '+QuotedStr(mmoObs.Text)+' where f_cod = '+ QuotedStr(edtCod.Text)+'');
-          ExecSQL;
-          Application.MessageBox('Registro Atualizado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
-          btnSelecionarClick(Sender);
+    If edtCnpj.Text <> '' then begin
+       If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+          With dmCarroComando.ADOQuery1 do begin
+             Active := False;
+             SQL.Clear;
+             SQL.Add('Update fornecedores set cnpj = '+ QuotedStr(edtCnpj.Text)+', fn_nome = '+ QuotedStr(cbxForn.Text)+', fn_setor = '+ QuotedStr(cbxSetor.Text)+', fn_end = '+ QuotedStr(edtEnd.Text)+', fn_bai = '+ QuotedStr(edtBai.Text)+', fn_cid = '+ QuotedStr(edtCid.Text)+', fn_uf = '+ QuotedStr(cbxUf.Text)+', fn_contato = '+ QuotedStr(edtContato.Text)+', fn_fone = '+ QuotedStr(mkeFone.Text)+', fn_fax = '+ QuotedStr(mkeFax.Text)+', fn_mail = '+ QuotedStr(edtMail.Text)+', fn_voip = '+ QuotedStr(edtVoip.Text)+', fn_site = '+ QuotedStr(edtSite.Text)+', fn_cep = '+ QuotedStr(mkeCep.Text)+', fn_msn = '+QuotedStr(edtMsn.Text)+' where cnpj = '+ QuotedStr(edtCnpj.Text)+'');
+             ExecSQL;
+             Application.MessageBox('Registro Atualizado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+             btnSelecionarClick(Sender);
+          end;
+       end
+       else begin
+          Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
        end;
     end
     else begin
-       Application.MessageBox('O campo código não pode ser vazio! Selecione um Fornecedor para atualizar dados.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('O campo CNPJ não pode ser vazio! Selecione um Fornecedor para atualizar dados.','CarroComando - Atenção',MB_OK+MB_ICONWARNING);
     end;
 end;
 
 procedure TfrmCadFornec.btnDeletarClick(Sender: TObject);
 begin
-    If edtCod.Text <> '' then begin
-       If Application.MessageBox('Excluir Registro?','MyCar - Confirmação de Exclusão',MB_YESNO+MB_ICONEXCLAMATION) = ID_YES then begin
-          With dmCarroComando.zqCarro do begin
-             Active := False;
-             SQL.Clear;
-             SQL.Add('Delete from fornecedores where f_cod = '+ QuotedStr(edtCod.Text)+'');
-             ExecSQL;
-             Application.MessageBox('Registro Deletado com Sucesso!','MyCar - Sucesso',MB_OK+MB_ICONINFORMATION);
-             btnLimparClick(Self);
-             cbxForn.Clear;
-             FormCreate(Self);
+    If edtCnpj.Text <> '' then begin
+       If frmPrincipal.StatusBar1.Panels[2].Text = 'Nível:Alto' then begin
+          If Application.MessageBox('Excluir Registro?','Carro Comando - Confirmação de Exclusão',MB_YESNO+MB_ICONEXCLAMATION) = ID_YES then begin
+             With dmCarroComando.ADOQuery1 do begin
+                Active := False;
+                SQL.Clear;
+                SQL.Add('Delete from fornecedores where cnpj = '+ QuotedStr(edtCnpj.Text)+'');
+                ExecSQL;
+                Application.MessageBox('Registro Deletado com Sucesso!','Carro Comando - Sucesso',MB_OK+MB_ICONINFORMATION);
+                btnLimparClick(Sender);
+                FormShow(Sender);
+             end;
           end;
+       end
+       else begin
+          Application.MessageBox('Seu nível de acesso é Baixo. Você não tem permissão para executar esse comando!','Carro Comando - Atenção',MB_OK+MB_ICONSTOP);
        end;
     end
     else begin
-       Application.MessageBox('O campo código não pode ser vazio! Selecione um Fornecedor para poder exluir.','MyCar - Atenção',MB_OK+MB_ICONWARNING);
+       Application.MessageBox('O campo CNPJ não pode ser vazio! Selecione um Fornecedor para poder deletar.','CarroComando - Atenção',MB_OK+MB_ICONWARNING);
     end;
 end;
 
@@ -227,8 +216,41 @@ begin
        Try
          WinExec('C:\Arquivos de programas\Skype\Phone\Skype',SW_SHOW);
        Except
-           Application.MessageBox('Verifique se seu computador possui o Skype instalado!','MyCar - Aviso',MB_OK+MB_ICONINFORMATION);
+           Application.MessageBox('Verifique se seu computador possui o Skype instalado!','Carro Comando - Aviso',MB_OK+MB_ICONINFORMATION);
        end;
+    end;
+end;
+
+procedure TfrmCadFornec.edtMsnDblClick(Sender: TObject);
+begin
+    If edtMsn.Text <> '' then begin
+       Try
+         WinExec('C:\Arquivos de programas\Windows Live\Messenger\msnmsgr',SW_SHOW);
+       Except
+           Application.MessageBox('Verifique se seu computador possui o Windows Live Messenger instalado!','Carro Comando - Aviso',MB_OK+MB_ICONINFORMATION);
+      end;
+    end;
+end;
+
+procedure TfrmCadFornec.edtSiteDblClick(Sender: TObject);
+begin
+    If edtSite.Text <> '' then begin
+       frmPrincipal.Browser1Click(Sender);
+       frmBrowser.edtEndereco.Text := edtSite.Text;
+       frmBrowser.Web.Navigate(frmBrowser.edtEndereco.Text);
+    end;
+end;
+
+procedure TfrmCadFornec.edtMsnMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+begin
+    If edtMsn.Text <> '' then begin
+       edtMsn.Hint := 'Dê um duplo clique aqui para abrir o MSN';
+       edtMsn.ShowHint := True;
+    end
+    else begin
+       edtMsn.Hint := '';
+       edtMsn.ShowHint := False;
     end;
 end;
 
@@ -255,50 +277,6 @@ begin
     else begin
        edtSite.Hint := '';
        edtSite.ShowHint := False;
-    end;
-end;
-
-procedure TfrmCadFornec.btnNovoClick(Sender: TObject);
-var nNovo: Integer;
-begin
-    btnLimparClick(Self);
-    nNovo := fBuscaCodForn + 1;
-    edtCod.Text := IntToStr(nNovo);
-    cbxForn.SetFocus;
-end;
-
-procedure TfrmCadFornec.cbxFornKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
-begin
-    If (Key = VK_RETURN) then
-       btnSelecionarClick(Self);
-end;
-
-procedure TfrmCadFornec.edtSiteDblClick(Sender: TObject);
-begin
-    If edtSite.Text <> '' then begin
-       WinExec(PCHAR('C:\Arquivos de programas\Internet Explorer\iexplore.exe http://'+edtSite.Text),SW_SHOWMAXIMIZED);
-    end;
-
-end;
-
-procedure TfrmCadFornec.edtMailMouseMove(Sender: TObject;
-  Shift: TShiftState; X, Y: Integer);
-begin
-    If edtMail.Text <> '' then begin
-       edtMail.Hint := 'Dê um duplo clique aqui para localizar o e-mail';
-       edtMail.ShowHint := True;
-    end
-    else begin
-       edtMail.Hint := '';
-       edtMail.ShowHint := False;
-    end;
-end;
-
-procedure TfrmCadFornec.edtMailDblClick(Sender: TObject);
-begin
-    If edtMail.Text <> '' then begin
-       WinExec(PCHAR('C:\Arquivos de programas\Internet Explorer\iexplore.exe'),SW_SHOWMAXIMIZED);
     end;
 end;
 

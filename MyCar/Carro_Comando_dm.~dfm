@@ -2,53 +2,27 @@ object dmCarroComando: TdmCarroComando
   OldCreateOrder = False
   Left = 192
   Top = 114
-  Height = 187
-  Width = 238
-  object zcCarro: TZConnection
-    ControlsCodePage = cGET_ACP
-    UTF8StringsAsWideField = False
-    Properties.Strings = (
-      'AutoEncodeStrings=ON')
-    Connected = True
-    Port = 0
-    Database = 'C:\Arquivos de programas\MyCar\Database\Veiculos.db3'
-    Protocol = 'sqlite-3'
-    LibraryLocation = 'C:\Arquivos de programas\MyCar\sqlite3.dll'
-    Left = 24
+  Height = 115
+  Width = 275
+  object ADOConnection1: TADOConnection
+    ConnectionString = 
+      'Provider=MSDASQL.1;Persist Security Info=False;Data Source=carro' +
+      '_comando'
+    LoginPrompt = False
+    Provider = 'MSDASQL.1'
+    Left = 32
     Top = 24
   end
-  object zqCarro: TZQuery
-    Connection = zcCarro
-    Params = <>
-    Left = 96
+  object ADOQuery1: TADOQuery
+    Connection = ADOConnection1
+    CursorType = ctStatic
+    Parameters = <>
+    Left = 120
     Top = 24
   end
-  object dsCarro: TDataSource
-    DataSet = zqCarro
-    Left = 168
+  object DataSource1: TDataSource
+    DataSet = ADOQuery1
+    Left = 200
     Top = 24
-  end
-  object zcMyCar: TZConnection
-    ControlsCodePage = cGET_ACP
-    UTF8StringsAsWideField = False
-    Properties.Strings = (
-      'AutoEncodeStrings=ON')
-    Connected = True
-    Port = 0
-    Database = 
-      'D:\Robson\Meus Documentos\Meus Programas\Carro Comando Arquivos\' +
-      'Carro Comando\Carro Comando - Banco de Dados\rpdmvc.db3'
-    Protocol = 'sqlite-3'
-    LibraryLocation = 
-      'D:\Robson\Programas\SQLite\sqlite-dll-win32-x86-3071602\sqlite3.' +
-      'dll'
-    Left = 64
-    Top = 96
-  end
-  object zqMyCar: TZQuery
-    Connection = zcMyCar
-    Params = <>
-    Left = 136
-    Top = 96
   end
 end
