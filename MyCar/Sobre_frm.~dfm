@@ -22265,7 +22265,6 @@ object frmSobre: TfrmSobre
           'sistema de impress'#227'o; '
           ' '#183'Calculadora;'
           ' '#183'C'#243'pia de seguran'#231'a e restaura'#231#227'o (Backup/Restore).')
-        ReadOnly = True
         ScrollBars = ssVertical
         TabOrder = 0
       end

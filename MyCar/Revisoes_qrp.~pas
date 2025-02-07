@@ -1,0 +1,25 @@
+unit Revisoes_qrp;
+
+interface
+
+uses Windows, SysUtils, Messages, Classes, Graphics, Controls,
+  StdCtrls, ExtCtrls, Forms, QuickRpt, QRCtrls;
+
+type
+  TqrpRevisao = class(TQuickRep)
+  private
+
+  public
+
+  end;
+
+var
+  qrpRevisao: TqrpRevisao;
+
+implementation
+
+uses Carro_Comando_dm;
+
+{$R *.DFM}
+
+end.
