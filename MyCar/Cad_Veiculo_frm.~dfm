@@ -1723,7 +1723,7 @@ object frmCadVeiculo: TfrmCadVeiculo
     end
   end
   object Panel2: TPanel
-    Left = 512
+    Left = 496
     Top = 104
     Width = 241
     Height = 177
