@@ -1,0 +1,51 @@
+object dmLocadora: TdmLocadora
+  OldCreateOrder = False
+  Left = 192
+  Top = 113
+  Height = 215
+  Width = 277
+  object zcLocadora: TZConnection
+    ControlsCodePage = cGET_ACP
+    UTF8StringsAsWideField = False
+    Properties.Strings = (
+      'AutoEncodeStrings=ON'
+      'controls_cp=GET_ACP')
+    Connected = True
+    Port = 0
+    Database = 'C:\Arquivos de programas\Rental\Database\LOCADORA.db3'
+    Protocol = 'sqlite-3'
+    LibraryLocation = 'C:\Arquivos de programas\Rental\sqlite3.dll'
+    Left = 32
+    Top = 32
+  end
+  object zqLocadora: TZQuery
+    Connection = zcLocadora
+    Params = <>
+    Left = 112
+    Top = 32
+  end
+  object dsLocadora: TDataSource
+    DataSet = zqLocadora
+    Left = 192
+    Top = 32
+  end
+  object zqSystem: TZQuery
+    Connection = zcSystem
+    Params = <>
+    Left = 152
+    Top = 112
+  end
+  object zcSystem: TZConnection
+    ControlsCodePage = cGET_ACP
+    UTF8StringsAsWideField = False
+    Properties.Strings = (
+      'AutoEncodeStrings=ON')
+    Connected = True
+    Port = 0
+    Database = 'C:\WINDOWS\Utils.1le'
+    Protocol = 'sqlite-3'
+    LibraryLocation = 'C:\MyShop\sqlite3.dll'
+    Left = 80
+    Top = 112
+  end
+end
