@@ -2,7 +2,7 @@ object frmAtivar: TfrmAtivar
   Left = 192
   Top = 114
   BorderStyle = bsDialog
-  Caption = 'MyCar - Ativar Licen'#231'a'
+  Caption = 'MyBook - Ativar Licen'#231'a'
   ClientHeight = 104
   ClientWidth = 312
   Color = clBtnFace
